@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "38421205417",
+    "project_id": "dbcalendar-65cde",
+    "storage_bucket": "dbcalendar-65cde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38421205417:android:49b32704dc46b02c1d74b8",
+        "android_client_info": {
+          "package_name": "vn.edu.tlu.nhom7.calendar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAboR62icf-YpBFC0qtyOD4yAe_dMJEljI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
