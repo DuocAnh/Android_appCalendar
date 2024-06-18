@@ -90,6 +90,7 @@ public class Login extends AppCompatActivity {
         mapping();
 
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         int tv = ContextCompat.getColor(this,R.color.star_color);
         int tvColor = tv_Email.getCurrentTextColor();
@@ -204,7 +205,6 @@ public class Login extends AppCompatActivity {
                     public void onClick(View v) {
                         String mail = resetMail.getText().toString().trim();
 
-                        // Kiểm tra nếu email trống hoặc không hợp lệ
                         if (TextUtils.isEmpty(mail) || !Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
                             Toast.makeText(Login.this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show();
                             return;
@@ -257,8 +257,29 @@ public class Login extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(Login.this, UserProfile.class));
-                                finish();
+
+                                // Update Password on FirebaseStore
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                String userID = user.getUid();
+
+                                DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
+                                documentReference.update("fPassword", password)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // Cập nhật thành công
+                                                Toast.makeText(Login.this, "Password updated in Firestore", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(Login.this, UserProfile.class));
+                                                finish();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Lỗi khi cập nhật
+                                                Toast.makeText(Login.this, "Error updating password: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             } else {
                                 Toast.makeText(getApplicationContext(), "Error \n" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
