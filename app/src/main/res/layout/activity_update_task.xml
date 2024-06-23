@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".activity.task.UpdateTaskActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:text="Sủa thông tin công việc"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="122dp"
+        android:orientation="vertical"
+        android:padding="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/etTaskName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/pattern_task_edittext"
+            android:inputType="text"
+            android:padding="15dp"
+            android:hint="Tên công việc*"/>
+
+        <EditText
+            android:id="@+id/etTaskDescription"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginTop="15dp"
+            android:gravity="start|top"
+            android:padding="15dp"
+            android:inputType="textMultiLine"
+            android:background="@drawable/pattern_task_edittext"
+            android:hint="Chi tiết công việc..."/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="date"
+                android:background="@drawable/pattern_task_edittext"
+                android:hint="Ngày"/>
+
+            <ImageView
+                android:id="@+id/imageCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_gravity="end|center_vertical"
+                app:srcCompat="@drawable/ic_task_calendar"/>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etStartTime"
+                    android:layout_width="165dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:padding="15dp"
+                    android:inputType="time"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:background="@drawable/pattern_task_edittext"
+                    android:hint="Bắt đầu"/>
+
+                <ImageView
+                    android:id="@+id/imageStartTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="end|center_vertical"
+                    app:srcCompat="@drawable/ic_task_clock" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etEndTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:ems="10"
+                    android:inputType="time"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:background="@drawable/pattern_task_edittext"
+                    android:hint="Kết thúc"/>
+
+                <ImageView
+                    android:id="@+id/imageEndTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_gravity="end|center_vertical"
+                    app:srcCompat="@drawable/ic_task_clock" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <Spinner
+                android:id="@+id/spAlarmTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:paddingStart="7dp"
+                android:background="@drawable/pattern_task_edittext"
+                android:text="Thông báo trước 15 phút" />
+
+            <ImageView
+                android:id="@+id/imageAlarmTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_gravity="end|center_vertical"
+                app:srcCompat="@drawable/ic_task_alarm" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <Spinner
+                android:id="@+id/spColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:paddingStart="24dp"
+                android:clickable="true"
+                android:focusable="false"
+                android:background="@drawable/pattern_task_edittext"
+                android:text="Màu xanh" />
+
+            <ImageView
+                android:id="@+id/imageColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_gravity="start|center_vertical" />
+
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/etLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:padding="15dp"
+            android:inputType="text"
+            android:background="@drawable/pattern_task_edittext"
+            android:hint="Vị trí (nếu có)"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnUpdateTask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Sửa công việc" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

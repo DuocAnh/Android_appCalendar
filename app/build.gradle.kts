@@ -32,13 +32,12 @@ android {
     }
 }
 
-//tasks.withType<JavaCompile> {
-//    options.compilerArgs.add("-Xlint:deprecation")
-//}
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-Xlint:deprecation")
+}
 
 dependencies {
 
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -49,4 +48,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation(platform("com.google.code.gson:gson:2.8.8"))
 }
