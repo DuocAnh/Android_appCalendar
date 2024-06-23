@@ -1,5 +1,6 @@
 package vn.edu.tlu.nhom7.calendar.activity.task;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,20 +38,43 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+
+import java.util.Objects;
 
 import vn.edu.tlu.nhom7.calendar.R;
+import vn.edu.tlu.nhom7.calendar.activity.MainActivity;
 
 public class UserProfile extends AppCompatActivity {
 
     TextView tvName, tvEmail, tvPassword, tvmessageVerification, tvresetPasswordYP,tvaddImageYP;
     ImageView imageUser;
     Button btnlogOut, btnmessageVerification;
+    ImageButton btnimgback;
 
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
+    StorageReference storageReference;
     FirebaseUser user;
-
     String userID;
+
+    private void mapping(){
+        tvName = findViewById(R.id.tvNameUser);
+        tvEmail = findViewById(R.id.tvEmailUser);
+        tvPassword = findViewById(R.id.tvPasswordUser);
+        tvmessageVerification = findViewById(R.id.tvMessageVerification);
+        btnmessageVerification = findViewById(R.id.btnMessageVerification);
+        tvresetPasswordYP = findViewById(R.id.tv_resetPasswordYP);
+        imageUser = findViewById(R.id.imageUser);
+        tvaddImageYP = findViewById(R.id.tv_addImageYP);
+        btnlogOut = findViewById(R.id.btnlogOutUser);
+        btnimgback = findViewById(R.id.img_buttonback);
+
+    }
     private static final String TAG = "User_Profile Verification Email Sent : ";
 
     @Override
@@ -62,18 +88,11 @@ public class UserProfile extends AppCompatActivity {
             return insets;
         });
 
-        tvName = findViewById(R.id.tvNameUser);
-        tvEmail = findViewById(R.id.tvEmailUser);
-        tvPassword = findViewById(R.id.tvPasswordUser);
-        tvmessageVerification = findViewById(R.id.tvMessageVerification);
-        btnmessageVerification = findViewById(R.id.btnMessageVerification);
-        tvresetPasswordYP = findViewById(R.id.tv_resetPasswordYP);
-        imageUser = findViewById(R.id.imageUser);
-        tvaddImageYP = findViewById(R.id.tv_addImageYP);
-        btnlogOut = findViewById(R.id.btnlogOutUser);
+        mapping();
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         userID = firebaseAuth.getCurrentUser().getUid();
 
@@ -102,6 +121,7 @@ public class UserProfile extends AppCompatActivity {
             });
         }
 
+        // update password btn reset password to firebase and mapping password profile user
         DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -116,6 +136,7 @@ public class UserProfile extends AppCompatActivity {
             }
         });
 
+        // Reset password
         tvresetPasswordYP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,7 +198,7 @@ public class UserProfile extends AppCompatActivity {
             }
         });
 
-
+        // add Image
         tvaddImageYP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,6 +207,28 @@ public class UserProfile extends AppCompatActivity {
             }
         });
 
+        // store Image User
+        StorageReference profileRef = storageReference.child("users/"+firebaseAuth.getCurrentUser().getUid()+"/profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(imageUser);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Error Image pull","no image or pull image errored");
+            }
+        });
+
+        // Logout
+
+        btnimgback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
         btnlogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,17 +240,42 @@ public class UserProfile extends AppCompatActivity {
         });
     }
 
+    // up and down Image User
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1000 && resultCode == RESULT_OK && data != null) {
             Uri imageUri = data.getData();
             if (imageUri != null) {
-                imageUser.setImageURI(imageUri);
+                uploadImageToFirebase(imageUri);
+
             } else {
                 Toast.makeText(this, "Failed to retrieve image URI", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void uploadImageToFirebase(Uri imageUri) {
+        // upload image to firebase
+        StorageReference fileRef = storageReference.child("users/"+ Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()+"/profile.jpg");
+        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(UserProfile.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(imageUser);
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(UserProfile.this, "Image not upload", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 

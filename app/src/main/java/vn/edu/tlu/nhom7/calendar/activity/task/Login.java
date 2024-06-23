@@ -272,7 +272,7 @@ public class Login extends AppCompatActivity {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                Toast.makeText(Login.this, "Password updated in Firestore", Toast.LENGTH_SHORT).show();
+                                                Log.d("Messes notice update password firebase", "Password updated in Firestore");
                                                 startActivity(new Intent(Login.this, UserProfile.class));
                                                 finish();
                                             }

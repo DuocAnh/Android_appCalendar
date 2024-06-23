@@ -48,5 +48,13 @@ public class MainSignUp extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btn_PhoneNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainSignUp.this,Sign_Up.class);
+                startActivity(intent);
+            }
+        });
     }
 }
