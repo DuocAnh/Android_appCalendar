@@ -1,4 +1,4 @@
-package vn.edu.tlu.nhom7.calendar;
+package vn.edu.tlu.nhom7.calendar.activity.task;
 
 import androidx.core.content.ContextCompat;
 
@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -42,8 +41,7 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.List;
-import java.util.Objects;
+import vn.edu.tlu.nhom7.calendar.R;
 
 public class Login extends AppCompatActivity {
 

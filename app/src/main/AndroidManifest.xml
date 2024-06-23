@@ -30,16 +30,16 @@
             android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainSignUp"
+            android:name=".activity.task.MainSignUp"
             android:exported="false" />
         <activity
-            android:name=".Sign_Up"
+            android:name=".activity.task.Sign_Up"
             android:exported="false" />
         <activity
-            android:name=".UserProfile"
+            android:name=".activity.task.UserProfile"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".activity.task.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

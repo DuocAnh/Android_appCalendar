@@ -1,14 +1,12 @@
-package vn.edu.tlu.nhom7.calendar;
+package vn.edu.tlu.nhom7.calendar.activity.task;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.util.Log;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import vn.edu.tlu.nhom7.calendar.R;
 
 public class Sign_Up extends AppCompatActivity {
 
