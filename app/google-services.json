@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "38421205417",
-    "project_id": "dbcalendar-65cde",
-    "storage_bucket": "dbcalendar-65cde.appspot.com"
+    "project_number": "637217219093",
+    "firebase_url": "https://baitaplon-3156c-default-rtdb.firebaseio.com",
+    "project_id": "baitaplon-3156c",
+    "storage_bucket": "baitaplon-3156c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:38421205417:android:49b32704dc46b02c1d74b8",
+        "mobilesdk_app_id": "1:637217219093:android:5df5b9930a58d1ce47a41c",
         "android_client_info": {
           "package_name": "vn.edu.tlu.nhom7.calendar"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAboR62icf-YpBFC0qtyOD4yAe_dMJEljI"
+          "current_key": "AIzaSyBXxI_9pEtJF3_SmdfkBRW-d0c6Ci4cZjs"
         }
       ],
       "services": {
