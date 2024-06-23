@@ -45,11 +45,13 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation ("com.google.firebase:firebase-auth:latest_version")
-
+    implementation ("com.squareup.picasso:picasso:2.8")
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation(platform("com.google.code.gson:gson:2.8.8"))
+    implementation ("com.google.firebase:firebase-firestore")
 }
