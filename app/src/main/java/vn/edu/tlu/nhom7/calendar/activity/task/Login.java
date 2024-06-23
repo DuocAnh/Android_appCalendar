@@ -1,5 +1,7 @@
 package vn.edu.tlu.nhom7.calendar.activity.task;
 
+import static android.util.Log.d;
+
 import androidx.core.content.ContextCompat;
 
 import android.app.Dialog;
@@ -10,6 +12,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -40,6 +43,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 import vn.edu.tlu.nhom7.calendar.R;
 
@@ -120,13 +125,13 @@ public class Login extends AppCompatActivity {
                 if (s.length() < 6){
                     tv_messes.setVisibility(TextView.VISIBLE);
                     ll_Email.setPadding(ll_Email.getPaddingLeft(), ll_Email.getPaddingTop(), ll_Email.getPaddingRight(), paddingBottomPx);
-                    tv_messes.setTextColor(getResources().getColor(R.color.messes_err));
+                    tv_messes.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.messes_err));
                     tv_messes.setText("* Minimum six characters");
                 }
                 else {
                     tv_messes.setVisibility(TextView.VISIBLE);
                     ll_Email.setPadding(ll_Email.getPaddingLeft(), ll_Email.getPaddingTop(), ll_Email.getPaddingRight(), paddingBottomPx);
-                    tv_messes.setTextColor(getResources().getColor(R.color.messes_done));
+                    tv_messes.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.messes_done));
                     tv_messes.setText("* Valid");
                 }
             }
@@ -150,12 +155,13 @@ public class Login extends AppCompatActivity {
                     ll_passWord.setLayoutParams(layoutParams);
                     tv_messes1.setVisibility(TextView.VISIBLE);
                     tv_messes1.setText("* Minimum six characters");
-                    tv_messes1.setTextColor(getResources().getColor(R.color.messes_err));
+                    tv_messes1.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.messes_err));
+
                 } else {
                     layoutParams.setMargins(0, marginTop, 0, 0);
                     ll_passWord.setLayoutParams(layoutParams);
                     tv_messes1.setVisibility(TextView.VISIBLE);
-                    tv_messes1.setTextColor(getResources().getColor(R.color.messes_done));
+                    tv_messes1.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.messes_done));
                     tv_messes1.setText("* Valid");
                 }
             }
@@ -186,7 +192,7 @@ public class Login extends AppCompatActivity {
 
                 Dialog dialog = new Dialog(v.getContext());
                 dialog.setContentView(dialogView);
-                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
 
                 EditText resetMail = dialogView.findViewById(R.id.etResetMail);
                 Button btnCancel = dialogView.findViewById(R.id.btnDialogCancel);
@@ -258,6 +264,7 @@ public class Login extends AppCompatActivity {
 
                                 // Update Password on FirebaseStore
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                                assert user != null;
                                 String userID = user.getUid();
 
                                 DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
@@ -265,7 +272,6 @@ public class Login extends AppCompatActivity {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                // Cập nhật thành công
                                                 Toast.makeText(Login.this, "Password updated in Firestore", Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(Login.this, UserProfile.class));
                                                 finish();
@@ -274,12 +280,12 @@ public class Login extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                // Lỗi khi cập nhật
                                                 Toast.makeText(Login.this, "Error updating password: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             } else {
-                                Toast.makeText(getApplicationContext(), "Error \n" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.d("","ERROR LOGIN");
+                                Toast.makeText(Login.this, "Email or Password is Incorrect", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
