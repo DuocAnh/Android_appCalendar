@@ -1,8 +1,11 @@
 package vn.edu.tlu.nhom7.calendar.activity.task;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,7 +40,7 @@ import vn.edu.tlu.nhom7.calendar.R;
 
 public class UserProfile extends AppCompatActivity {
 
-    TextView tvName, tvEmail, tvPassword, tvmessageVerification, tvresetPasswordYP;
+    TextView tvName, tvEmail, tvPassword, tvmessageVerification, tvresetPasswordYP,tvaddImageYP;
     ImageView imageUser;
     Button btnlogOut, btnmessageVerification;
 
@@ -65,6 +68,9 @@ public class UserProfile extends AppCompatActivity {
         tvmessageVerification = findViewById(R.id.tvMessageVerification);
         btnmessageVerification = findViewById(R.id.btnMessageVerification);
         tvresetPasswordYP = findViewById(R.id.tv_resetPasswordYP);
+        imageUser = findViewById(R.id.imageUser);
+        tvaddImageYP = findViewById(R.id.tv_addImageYP);
+        btnlogOut = findViewById(R.id.btnlogOutUser);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -105,7 +111,7 @@ public class UserProfile extends AppCompatActivity {
                     tvEmail.setText(value.getString("fEmail"));
                     tvPassword.setText(value.getString("fPassword"));
                 } else {
-                    Toast.makeText(UserProfile.this, "Document does not exist!", Toast.LENGTH_SHORT).show();
+                    Log.d("ERROR UPDATE password in userprofile", "error email or password");
                 }
             }
         });
@@ -171,7 +177,15 @@ public class UserProfile extends AppCompatActivity {
             }
         });
 
-        btnlogOut = findViewById(R.id.btnlogOutUser);
+
+        tvaddImageYP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(openGalleryIntent, 1000);
+            }
+        });
+
         btnlogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,6 +195,19 @@ public class UserProfile extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1000 && resultCode == RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            if (imageUri != null) {
+                imageUser.setImageURI(imageUri);
+            } else {
+                Toast.makeText(this, "Failed to retrieve image URI", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
 
