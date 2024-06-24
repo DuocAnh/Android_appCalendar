@@ -32,7 +32,7 @@
             android:name=".activity.task.ShowTaskActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.task.TaskActivity"
+            android:name=".activity.task.Login"
             android:exported="false" />
         <activity
             android:name=".activity.task.UpdateTaskActivity"
@@ -50,7 +50,7 @@
             android:name=".activity.task.UserProfile"
             android:exported="false" />
         <activity
-            android:name=".activity.task.Login"
+            android:name=".activity.task.TaskActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

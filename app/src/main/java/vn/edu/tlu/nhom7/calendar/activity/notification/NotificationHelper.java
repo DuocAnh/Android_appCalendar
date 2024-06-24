@@ -22,8 +22,9 @@ public class NotificationHelper {
         intent.putExtra("startTime", task.getStartTime());
         intent.putExtra("endTime", task.getEndTime());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         String dateTime = task.getDate() + " " + task.getStartTime();
+        Log.d("DateTime", dateTime);
         try {
             Date date = sdf.parse(dateTime);
             Calendar calendar = Calendar.getInstance();
@@ -50,13 +51,21 @@ public class NotificationHelper {
                     break;
             }
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                    context,
-                    task.getId(),
-                    intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-            );
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            long alarmTimeMillis = calendar.getTimeInMillis();
+            long currentTimeMillis = System.currentTimeMillis();
+
+            if (alarmTimeMillis > currentTimeMillis) {
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                        context,
+                        task.getId(),
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                );
+
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTimeMillis, pendingIntent);
+            } else {
+                Log.w("NotificationHelper", "Alarm time is in the past, skipping setting alarm.");
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

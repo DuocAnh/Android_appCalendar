@@ -25,7 +25,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, TaskActivity.CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_alarm_notifications)
                 .setContentTitle(taskName)
-                .setContentText(startTime + "-" + endTime + ": " + taskDescription)
+                .setContentText(startTime + " - " + endTime + ": " + taskDescription)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
@@ -33,5 +33,5 @@ public class NotificationReceiver extends BroadcastReceiver {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        notificationManager.notify(111, builder.build());}
+        notificationManager.notify(1112, builder.build());}
 }

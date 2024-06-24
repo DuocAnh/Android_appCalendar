@@ -12,11 +12,12 @@ public class Task implements Serializable {
     private String alarmTime;
     private String color;
     private String location;
+    private String idCurrentUser;
 
     public Task() {
     }
 
-    public Task(int id, String taskName, String taskDescription, String date, String startTime, String endTime, String alarmTime, String color, String location) {
+    public Task(int id, String taskName, String taskDescription, String date, String startTime, String endTime, String alarmTime, String color, String location, String idCurrentUser) {
         this.id = id;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
@@ -26,6 +27,7 @@ public class Task implements Serializable {
         this.alarmTime = alarmTime;
         this.color = color;
         this.location = location;
+        this.idCurrentUser = idCurrentUser;
     }
 
     public int getId() {
@@ -98,5 +100,12 @@ public class Task implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getIdCurrentUser() {
+        return idCurrentUser;
+    }
+    public void setIdCurrentUser(String idCurrentUser) {
+        this.idCurrentUser = idCurrentUser;
     }
 }
