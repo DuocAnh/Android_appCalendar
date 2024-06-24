@@ -5,7 +5,9 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,11 +20,18 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.CountDownLatch;
 
 import vn.edu.tlu.nhom7.calendar.R;
 import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
+import vn.edu.tlu.nhom7.calendar.database.TaskDao;
 import vn.edu.tlu.nhom7.calendar.database.TaskDaoImpl;
+import vn.edu.tlu.nhom7.calendar.database.UserDao;
+import vn.edu.tlu.nhom7.calendar.database.UserDaoImpl;
 import vn.edu.tlu.nhom7.calendar.model.Task;
 
 public class CreateTaskActivity extends AppCompatActivity {
@@ -68,6 +77,10 @@ public class CreateTaskActivity extends AppCompatActivity {
         etLocation = findViewById(R.id.etLocation);
         btnCreateTask = findViewById(R.id.btnCreateTask);
         imageColor = findViewById(R.id.imageColor);
+
+        etTaskName.setFilters(new InputFilter[] { new InputFilter.LengthFilter(100) });
+        etTaskDescription.setFilters(new InputFilter[] { new InputFilter.LengthFilter(200) });
+        etLocation.setFilters(new InputFilter[] { new InputFilter.LengthFilter(100) });
     }
 
     private void addTask() {
@@ -80,29 +93,47 @@ public class CreateTaskActivity extends AppCompatActivity {
         String strColor = spColor.getSelectedItem().toString().trim();
         String strLocation = etLocation.getText().toString().trim();
 
-        if (TextUtils.isEmpty(strTaskName) || TextUtils.isEmpty(strTaskDescription) || TextUtils.isEmpty(strDate) || TextUtils.isEmpty(strStartTime) || TextUtils.isEmpty(strEndTime) || TextUtils.isEmpty(strAlarmTime)) {
-            Toast.makeText(this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
-        } else {
-            Task task = new Task(id, strTaskName, strTaskDescription, strDate, strStartTime, strEndTime, strAlarmTime, strColor, strLocation); // Truyền ID vào constructor của Task
-            TaskDaoImpl taskDAO = TaskDaoImpl.getInstance();
-            taskDAO.createTask(task);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        try {
+            Date startTime = sdf.parse(strStartTime);
+            Date endTime = sdf.parse(strEndTime);
 
-            Toast.makeText(this, "Thêm công việc thành công", Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(strTaskName) || TextUtils.isEmpty(strTaskDescription) || TextUtils.isEmpty(strDate) || TextUtils.isEmpty(strStartTime) || TextUtils.isEmpty(strEndTime) || TextUtils.isEmpty(strAlarmTime)) {
+                Toast.makeText(this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
+            } else if (startTime != null && endTime != null && !endTime.after(startTime)) {
+                Toast.makeText(this, "Thời gian kết thúc phải sau thời gian bắt đầu", Toast.LENGTH_SHORT).show();
+            } else {
+                UserDaoImpl userDao = UserDaoImpl.getInstance();
+                String idCurrentUser = userDao.getIdCurrentUser();
+                Task task = new Task(id, strTaskName, strTaskDescription, strDate, strStartTime, strEndTime, strAlarmTime, strColor, strLocation, idCurrentUser);
 
-            NotificationHelper.setAlarm(this, task);
+                TaskDaoImpl taskDAO = TaskDaoImpl.getInstance();
+                taskDAO.isTaskExists(task, existingTask -> {
+                    if (existingTask != null) {
+                        Toast.makeText(CreateTaskActivity.this, "Bản ghi đã tồn tại", Toast.LENGTH_SHORT).show();
+                    } else {
+                        taskDAO.createTask(task);
+                        Toast.makeText(CreateTaskActivity.this, "Thêm công việc thành công", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(CreateTaskActivity.this, TaskActivity.class);
-            startActivity(intent);
-            finish();
+                        NotificationHelper.setAlarm(this, task);
+
+                        Intent intent = new Intent(CreateTaskActivity.this, TaskActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
     private void getNextId() {
-        TaskDaoImpl taskDAO = TaskDaoImpl.getInstance();
-        taskDAO.fetchLastTaskId(new TaskDaoImpl.LastTaskIdCallback() {
+        TaskDaoImpl taskDao = TaskDaoImpl.getInstance();
+        taskDao.fetchLastTaskId(new TaskDaoImpl.LastTaskIdCallback() {
             @Override
             public void onCallback(int lastTaskId) {
-                id = lastTaskId;
+                id = lastTaskId + 1;
             }
         });
     }

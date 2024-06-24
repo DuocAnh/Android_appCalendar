@@ -38,27 +38,26 @@ public class TaskDaoImpl implements TaskDao {
         }
     }
 
-    public void getTaskOfDay(String date, final FirebaseCallback callback) {
-        // Lọc các document có trường "taskDate" bằng với giá trị của biến date
-        tasksCollection.whereEqualTo("date", date).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
-                if (e != null) {
-                    // Xử lý lỗi nếu cần thiết
-                    Log.w("getTaskOfDay", "Listen failed.", e);
-                    return;
-                }
+    public void getTaskOfDay(String date, String idUser, final FirebaseCallback callback) {
+        tasksCollection.whereEqualTo("date", date)
+                .whereEqualTo("idCurrentUser", idUser)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("getTaskOfDay", "Listen failed.", e);
+                            return;
+                        }
 
-                List<Task> dbListTask = new ArrayList<>();
-                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    Task task = documentSnapshot.toObject(Task.class);
-                    dbListTask.add(task);
-                }
-                callback.onCallback(dbListTask);
-            }
-        });
+                        List<Task> dbListTask = new ArrayList<>();
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Task task = documentSnapshot.toObject(Task.class);
+                            dbListTask.add(task);
+                        }
+                        callback.onCallback(dbListTask);
+                    }
+                });
     }
-
 
     @Override
     public void createTask(Task task) {
@@ -117,15 +116,46 @@ public class TaskDaoImpl implements TaskDao {
                         if (!queryDocumentSnapshots.isEmpty()) {
                             DocumentSnapshot lastDocument = queryDocumentSnapshots.getDocuments().get(0);
                             String lastTaskId = lastDocument.getId();
-                            callback.onCallback(Integer.parseInt(lastTaskId) + 1);
+                            callback.onCallback(Integer.parseInt(lastTaskId));
                         } else {
-                            callback.onCallback(1); // No documents found
+                            callback.onCallback(0); // No documents found
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+
+    public void isTaskExists(Task task, final TaskExistsCallback callback) {
+        tasksCollection.whereEqualTo("taskName", task.getTaskName())
+                .whereEqualTo("taskDescription", task.getTaskDescription())
+                .whereEqualTo("date", task.getDate())
+                .whereEqualTo("startTime", task.getStartTime())
+                .whereEqualTo("endTime", task.getEndTime())
+                .whereEqualTo("alarmTime", task.getAlarmTime())
+                .whereEqualTo("color", task.getColor())
+                .whereEqualTo("location", task.getLocation())
+                .whereEqualTo("idCurrentUser", task.getIdCurrentUser())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                            Task existingTask = documentSnapshot.toObject(Task.class);
+                            callback.onCallback(existingTask);
+                        } else {
+                            callback.onCallback(null);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        callback.onCallback(null);
                     }
                 });
     }

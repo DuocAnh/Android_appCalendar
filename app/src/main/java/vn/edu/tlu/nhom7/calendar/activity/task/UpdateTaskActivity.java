@@ -2,6 +2,7 @@ package vn.edu.tlu.nhom7.calendar.activity.task;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,9 +16,14 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import vn.edu.tlu.nhom7.calendar.R;
 import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
 import vn.edu.tlu.nhom7.calendar.database.TaskDaoImpl;
+import vn.edu.tlu.nhom7.calendar.database.UserDaoImpl;
 import vn.edu.tlu.nhom7.calendar.model.Task;
 
 public class UpdateTaskActivity extends AppCompatActivity {
@@ -26,6 +32,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
     private Spinner spAlarmTime, spColor;
     private ImageView imageColor;
     private int id;
+    private String idCurrentUser;
     private Button btnUpdateTask;
 
     @Override
@@ -64,12 +71,17 @@ public class UpdateTaskActivity extends AppCompatActivity {
         spColor = findViewById(R.id.spColor);
         btnUpdateTask = findViewById(R.id.btnUpdateTask);
         imageColor = findViewById(R.id.imageColor);
+
+        etTaskName.setFilters(new InputFilter[] { new InputFilter.LengthFilter(100) });
+        etTaskDescription.setFilters(new InputFilter[] { new InputFilter.LengthFilter(200) });
+        etLocation.setFilters(new InputFilter[] { new InputFilter.LengthFilter(100) });
     }
 
     private void getTask() {
         Task task = (Task) getIntent().getExtras().get("object_task");
         if (task != null) {
             id = task.getId();
+            idCurrentUser = task.getIdCurrentUser();
             etTaskName.setText(task.getTaskName());
             etTaskDescription.setText(task.getTaskDescription());
             etDate.setText(task.getDate());
@@ -111,21 +123,36 @@ public class UpdateTaskActivity extends AppCompatActivity {
         String strColor = spColor.getSelectedItem().toString().trim();
         String strLocation = etLocation.getText().toString().trim();
 
-        if (TextUtils.isEmpty(strTaskName) || TextUtils.isEmpty(strTaskDescription) || TextUtils.isEmpty(strDate) || TextUtils.isEmpty(strStartTime) || TextUtils.isEmpty(strEndTime) || TextUtils.isEmpty(strAlarmTime)) {
-            Toast.makeText(this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
-        }else {
-            Task task = new Task(id, strTaskName, strTaskDescription, strDate, strStartTime, strEndTime, strAlarmTime, strColor, strLocation);
-            TaskDaoImpl db = new TaskDaoImpl();
-            db.updateTask(id, task);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        try {
+            Date startTime = sdf.parse(strStartTime);
+            Date endTime = sdf.parse(strEndTime);
 
-            Toast.makeText(this, "Sửa thông tin công việc thành công", Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(strTaskName) || TextUtils.isEmpty(strTaskDescription) || TextUtils.isEmpty(strDate) || TextUtils.isEmpty(strStartTime) || TextUtils.isEmpty(strEndTime) || TextUtils.isEmpty(strAlarmTime)) {
+                Toast.makeText(this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
+            } else if (startTime != null && endTime != null && !endTime.after(startTime)) {
+                Toast.makeText(this, "Thời gian kết thúc phải sau thời gian bắt đầu", Toast.LENGTH_SHORT).show();
+            } else {
+                Task task = new Task(id, strTaskName, strTaskDescription, strDate, strStartTime, strEndTime, strAlarmTime, strColor, strLocation, idCurrentUser);
+                TaskDaoImpl taskDAO = TaskDaoImpl.getInstance();
+                taskDAO.isTaskExists(task, existingTask -> {
+                    if (existingTask != null) {
+                        Toast.makeText(UpdateTaskActivity.this, "Bản ghi đã tồn tại", Toast.LENGTH_SHORT).show();
+                    } else {
+                        taskDAO.updateTask(id, task);
+                        Toast.makeText(UpdateTaskActivity.this, "Sửa thông tin công việc thành công", Toast.LENGTH_SHORT).show();
 
-            NotificationHelper.cancelAlarm(this, id);
-            NotificationHelper.setAlarm(this, task);
+                        NotificationHelper.cancelAlarm(this, id);
+                        NotificationHelper.setAlarm(this, task);
 
-            Intent intent = new Intent(UpdateTaskActivity.this, TaskActivity.class);
-            startActivity(intent);
-            finish();
+                        Intent intent = new Intent(UpdateTaskActivity.this, TaskActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 

@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import vn.edu.tlu.nhom7.calendar.R;
@@ -28,6 +30,7 @@ import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
 import vn.edu.tlu.nhom7.calendar.adapter.TaskAdapter;
 import vn.edu.tlu.nhom7.calendar.database.TaskDao;
 import vn.edu.tlu.nhom7.calendar.database.TaskDaoImpl;
+import vn.edu.tlu.nhom7.calendar.database.UserDaoImpl;
 import vn.edu.tlu.nhom7.calendar.model.Task;
 
 public class TaskActivity extends AppCompatActivity {
@@ -36,7 +39,7 @@ public class TaskActivity extends AppCompatActivity {
     private TaskAdapter taskAdapter;
     private RecyclerView rcvTask;
     private CalendarView calendar;
-    private String dateSelected;
+    private String dateSelected, idCurrentUser;
     private Button btnCreateTask;
 
     @Override
@@ -66,6 +69,9 @@ public class TaskActivity extends AppCompatActivity {
         });
         rcvTask.setAdapter(taskAdapter);
 
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        idCurrentUser = userDao.getIdCurrentUser();
+
         long currentDateMillis = calendar.getDate();
         Calendar calendarInstance = Calendar.getInstance();
         calendarInstance.setTimeInMillis(currentDateMillis);
@@ -74,7 +80,7 @@ public class TaskActivity extends AppCompatActivity {
         int day = calendarInstance.get(Calendar.DAY_OF_MONTH);
         dateSelected = String.format("%02d/%02d/%d", day, month + 1, year);
 
-        getListTasksOfDay(dateSelected);
+        getListTasksOfDay(dateSelected, idCurrentUser);
 
         changeDay();
 
@@ -118,19 +124,27 @@ public class TaskActivity extends AppCompatActivity {
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 dateSelected = String.format("%02d/%02d/%d", dayOfMonth, month + 1, year);
                 Log.d("TaskActivity", "Selected date: " + dateSelected);
-                getListTasksOfDay(dateSelected);
+                Log.d("TaskActivity2", "Selected date: " + idCurrentUser);
+                getListTasksOfDay(dateSelected, idCurrentUser);
             }
         });
     }
 
-    private void getListTasksOfDay(String dateSelected) {
-        TaskDaoImpl.getInstance().getTaskOfDay(dateSelected, new TaskDao.FirebaseCallback() {
+    private void getListTasksOfDay(String dateSelected, String idCurrentUser) {
+        TaskDaoImpl.getInstance().getTaskOfDay(dateSelected, idCurrentUser, new TaskDao.FirebaseCallback() {
             @Override
             public void onCallback(List<Task> mListTask) {
+                Collections.sort(mListTask, new Comparator<Task>() {
+                    @Override
+                    public int compare(Task task1, Task task2) {
+                        return task1.getStartTime().compareTo(task2.getStartTime());
+                    }
+                });
                 taskAdapter.setData(mListTask);
             }
         });
     }
+
 
     private void ClickShowItem(Task task) {
         Intent intent = new Intent(this, ShowTaskActivity.class);

@@ -71,14 +71,19 @@
             android:paddingBottom="3dp"
             android:text="Task Name"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
         <TextView
             android:id="@+id/tv_Detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Details Task....."
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
     </LinearLayout>
 
 </LinearLayout>
