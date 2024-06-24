@@ -16,6 +16,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import vn.edu.tlu.nhom7.calendar.R;
+import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
 import vn.edu.tlu.nhom7.calendar.database.TaskDaoImpl;
 import vn.edu.tlu.nhom7.calendar.model.Task;
 
@@ -118,6 +119,9 @@ public class UpdateTaskActivity extends AppCompatActivity {
             db.updateTask(id, task);
 
             Toast.makeText(this, "Sửa thông tin công việc thành công", Toast.LENGTH_SHORT).show();
+
+            NotificationHelper.cancelAlarm(this, id);
+            NotificationHelper.setAlarm(this, task);
 
             Intent intent = new Intent(UpdateTaskActivity.this, TaskActivity.class);
             startActivity(intent);

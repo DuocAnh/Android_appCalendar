@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -22,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Calendar;
 
 import vn.edu.tlu.nhom7.calendar.R;
+import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
 import vn.edu.tlu.nhom7.calendar.database.TaskDaoImpl;
 import vn.edu.tlu.nhom7.calendar.model.Task;
 
@@ -88,6 +88,9 @@ public class CreateTaskActivity extends AppCompatActivity {
             taskDAO.createTask(task);
 
             Toast.makeText(this, "Thêm công việc thành công", Toast.LENGTH_SHORT).show();
+
+            NotificationHelper.setAlarm(this, task);
+
             Intent intent = new Intent(CreateTaskActivity.this, TaskActivity.class);
             startActivity(intent);
             finish();

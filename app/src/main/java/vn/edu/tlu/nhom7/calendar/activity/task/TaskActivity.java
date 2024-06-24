@@ -1,8 +1,11 @@
 package vn.edu.tlu.nhom7.calendar.activity.task;
 
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,18 +19,19 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import vn.edu.tlu.nhom7.calendar.R;
+import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
 import vn.edu.tlu.nhom7.calendar.adapter.TaskAdapter;
 import vn.edu.tlu.nhom7.calendar.database.TaskDao;
 import vn.edu.tlu.nhom7.calendar.database.TaskDaoImpl;
 import vn.edu.tlu.nhom7.calendar.model.Task;
 
 public class TaskActivity extends AppCompatActivity {
+    public static final String CHANNEL_ID = "1";
     private List<Task> mListTask;
     private TaskAdapter taskAdapter;
     private RecyclerView rcvTask;
@@ -81,6 +85,19 @@ public class TaskActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Task Channel";
+            String description = "Channel for task notifications";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
     }
 
     private void initUi() {
@@ -144,5 +161,7 @@ public class TaskActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
+        int id  = task.getId();
+        NotificationHelper.cancelAlarm(this, id);
     }
 }
