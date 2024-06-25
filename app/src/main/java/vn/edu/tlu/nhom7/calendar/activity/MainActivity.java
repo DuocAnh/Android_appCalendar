@@ -1,48 +1,68 @@
 package vn.edu.tlu.nhom7.calendar.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import vn.edu.tlu.nhom7.calendar.activity.task.MainSignUp;
 import vn.edu.tlu.nhom7.calendar.R;
+import vn.edu.tlu.nhom7.calendar.activity.home.CalendarFragment;
+import vn.edu.tlu.nhom7.calendar.activity.task.TaskFragment;
 
 public class MainActivity extends AppCompatActivity {
-
-    Button btn_Out;
+    private BottomNavigationView bottomNavigationView;
+    private FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        EdgeToEdge.enable(this);
+        bottomNavigationView = findViewById(R.id.bottomNavView);
+        frameLayout = findViewById(R.id.frameLayout);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        if (getIntent().hasExtra("key_task") && getIntent().getStringExtra("key_task").equals("task")) {
+            loadFragment(new TaskFragment(), true); // Load TaskFragment with addToBackStack
+        } else {
+            loadFragment(new CalendarFragment(), false); // Load CalendarFragment
+        }
 
-        btn_Out = findViewById(R.id.btn_out);
-        btn_Out.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this, MainSignUp.class));
-                Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
-                finish();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                if(itemId == R.id.nav_home){
+                    loadFragment(new CalendarFragment(), false);
+                } else if (itemId == R.id.nav_taskManager) {
+                    loadFragment(new TaskFragment(), false);
+                } else if (itemId == R.id.nav_userProfile) {
+//                    loadFragment(new UserProfileFragment(), false);
+                }
+
+                return true;
             }
         });
+    }
+    private void loadFragment (Fragment fragment, boolean isAppInitialized) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (isAppInitialized) {
+            fragmentTransaction.add(R.id.frameLayout, fragment);
+        } else {
+            fragmentTransaction.replace(R.id.frameLayout, fragment);
+        }
+        fragmentTransaction.commit();
     }
 }

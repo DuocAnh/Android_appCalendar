@@ -1,4 +1,4 @@
-package vn.edu.tlu.nhom7.calendar.activity.task;
+package vn.edu.tlu.nhom7.calendar.activity.user;
 
 import static android.util.Log.d;
 
@@ -47,6 +47,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Objects;
 
 import vn.edu.tlu.nhom7.calendar.R;
+import vn.edu.tlu.nhom7.calendar.activity.MainActivity;
 
 public class Login extends AppCompatActivity {
 
@@ -273,7 +274,7 @@ public class Login extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.d("Messes notice update password firebase", "Password updated in Firestore");
-                                                startActivity(new Intent(Login.this, UserProfile.class));
+                                                startActivity(new Intent(Login.this, MainActivity.class));
                                                 finish();
                                             }
                                         })
