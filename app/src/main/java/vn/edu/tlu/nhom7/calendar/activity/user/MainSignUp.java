@@ -1,4 +1,4 @@
-package vn.edu.tlu.nhom7.calendar.activity.task;
+package vn.edu.tlu.nhom7.calendar.activity.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,6 +45,14 @@ public class MainSignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainSignUp.this,Login.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_PhoneNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainSignUp.this,Sign_Up.class);
                 startActivity(intent);
             }
         });

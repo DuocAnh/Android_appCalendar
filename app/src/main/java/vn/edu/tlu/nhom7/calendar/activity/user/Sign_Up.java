@@ -1,4 +1,4 @@
-package vn.edu.tlu.nhom7.calendar.activity.task;
+package vn.edu.tlu.nhom7.calendar.activity.user;
 
 import android.content.Intent;
 import android.util.Log;
@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import vn.edu.tlu.nhom7.calendar.R;
+import vn.edu.tlu.nhom7.calendar.activity.MainActivity;
 
 public class Sign_Up extends AppCompatActivity {
 
@@ -236,7 +237,7 @@ public class Sign_Up extends AppCompatActivity {
                                 }
                             });
 
-                            startActivity(new Intent(Sign_Up.this, UserProfile.class));
+                            startActivity(new Intent(Sign_Up.this, MainActivity.class));
 
                         }else {
                             Toast.makeText(Sign_Up.this, "Error \n" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

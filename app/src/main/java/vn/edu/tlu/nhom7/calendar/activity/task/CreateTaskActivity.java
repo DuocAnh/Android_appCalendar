@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
 import vn.edu.tlu.nhom7.calendar.R;
+import vn.edu.tlu.nhom7.calendar.activity.MainActivity;
 import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
 import vn.edu.tlu.nhom7.calendar.database.TaskDao;
 import vn.edu.tlu.nhom7.calendar.database.TaskDaoImpl;
@@ -117,7 +118,8 @@ public class CreateTaskActivity extends AppCompatActivity {
 
                         NotificationHelper.setAlarm(this, task);
 
-                        Intent intent = new Intent(CreateTaskActivity.this, TaskActivity.class);
+                        Intent intent = new Intent(CreateTaskActivity.this, MainActivity.class);
+                        intent.putExtra("key_task", "task");
                         startActivity(intent);
                         finish();
                     }

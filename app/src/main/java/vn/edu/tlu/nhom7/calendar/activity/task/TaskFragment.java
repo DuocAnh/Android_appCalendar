@@ -8,13 +8,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,13 +28,16 @@ import java.util.List;
 
 import vn.edu.tlu.nhom7.calendar.R;
 import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
+import vn.edu.tlu.nhom7.calendar.activity.task.CreateTaskActivity;
+import vn.edu.tlu.nhom7.calendar.activity.task.ShowTaskActivity;
+import vn.edu.tlu.nhom7.calendar.activity.task.UpdateTaskActivity;
 import vn.edu.tlu.nhom7.calendar.adapter.TaskAdapter;
 import vn.edu.tlu.nhom7.calendar.database.TaskDao;
 import vn.edu.tlu.nhom7.calendar.database.TaskDaoImpl;
 import vn.edu.tlu.nhom7.calendar.database.UserDaoImpl;
 import vn.edu.tlu.nhom7.calendar.model.Task;
 
-public class TaskActivity extends AppCompatActivity {
+public class TaskFragment extends Fragment {
     public static final String CHANNEL_ID = "1";
     private List<Task> mListTask;
     private TaskAdapter taskAdapter;
@@ -42,24 +46,28 @@ public class TaskActivity extends AppCompatActivity {
     private String dateSelected, idCurrentUser;
     private Button btnCreateTask;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_task);
+    public TaskFragment() {
+        // Required empty public constructor
+    }
 
-        initUi();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_task, container, false);
+
+        initUi(rootView);
 
         mListTask = new ArrayList<>();
         taskAdapter = new TaskAdapter(mListTask, new TaskAdapter.IClickListener() {
             @Override
             public void onClickShowItem(Task task) {
-                ClickShowItem(task);
+                clickShowItem(task);
             }
 
             @Override
             public void onClickUpdateItem(Task task) {
-                ClickUpdateItem(task);
+                clickUpdateItem(task);
             }
 
             @Override
@@ -87,7 +95,7 @@ public class TaskActivity extends AppCompatActivity {
         btnCreateTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TaskActivity.this, CreateTaskActivity.class);
+                Intent intent = new Intent(getActivity(), CreateTaskActivity.class);
                 startActivity(intent);
             }
         });
@@ -99,22 +107,24 @@ public class TaskActivity extends AppCompatActivity {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
 
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
             if (notificationManager != null) {
                 notificationManager.createNotificationChannel(channel);
             }
         }
+
+        return rootView;
     }
 
-    private void initUi() {
-        rcvTask = findViewById(R.id.taskRecycler);
-        btnCreateTask = findViewById(R.id.btnCreateTask);
-        calendar = findViewById(R.id.calendarView);
+    private void initUi(View rootView) {
+        rcvTask = rootView.findViewById(R.id.taskRecycler);
+        btnCreateTask = rootView.findViewById(R.id.btnCreateTask);
+        calendar = rootView.findViewById(R.id.calendarView);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvTask.setLayoutManager(linearLayoutManager);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         rcvTask.addItemDecoration(dividerItemDecoration);
     }
 
@@ -123,8 +133,8 @@ public class TaskActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 dateSelected = String.format("%02d/%02d/%d", dayOfMonth, month + 1, year);
-                Log.d("TaskActivity", "Selected date: " + dateSelected);
-                Log.d("TaskActivity2", "Selected date: " + idCurrentUser);
+                Log.d("TaskFragment", "Selected date: " + dateSelected);
+                Log.d("TaskFragment2", "Selected date: " + idCurrentUser);
                 getListTasksOfDay(dateSelected, idCurrentUser);
             }
         });
@@ -145,17 +155,16 @@ public class TaskActivity extends AppCompatActivity {
         });
     }
 
-
-    private void ClickShowItem(Task task) {
-        Intent intent = new Intent(this, ShowTaskActivity.class);
+    private void clickShowItem(Task task) {
+        Intent intent = new Intent(getActivity(), ShowTaskActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("object_task", task);
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
-    private void ClickUpdateItem(Task task) {
-        Intent intent = new Intent(this, UpdateTaskActivity.class);
+    private void clickUpdateItem(Task task) {
+        Intent intent = new Intent(getActivity(), UpdateTaskActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("object_task", task);
         intent.putExtras(bundle);
@@ -163,9 +172,9 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void deleteTask(Task task) {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.app_name))
-                .setMessage("Bạn có chắc chắn muốn xóa bản ghi này không?")
+                .setMessage("Bạn có chắc chắn muốn xóa bản ghi này không?")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -176,6 +185,6 @@ public class TaskActivity extends AppCompatActivity {
                 .setNegativeButton("Cancel", null)
                 .show();
         int id  = task.getId();
-        NotificationHelper.cancelAlarm(this, id);
+        NotificationHelper.cancelAlarm(getActivity(), id);
     }
 }
