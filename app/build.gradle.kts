@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -56,4 +57,5 @@ dependencies {
     implementation(platform("com.google.code.gson:gson:2.8.8"))
     implementation ("com.google.firebase:firebase-firestore")
     implementation("com.prolificinteractive:material-calendarview:1.4.2")
+    implementation ("com.squareup.picasso:picasso:2.8")
 }

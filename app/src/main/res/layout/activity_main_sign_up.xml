@@ -119,7 +119,7 @@
             app:backgroundTint="@null"
             android:gravity="center"
             android:padding="0dp"
-            android:background="@drawable/custom_btn_1"
+            android:background="@drawable/custom_edt"
             android:textColor="#5E5B5B"
             android:textSize="15sp"/>
             <RelativeLayout
