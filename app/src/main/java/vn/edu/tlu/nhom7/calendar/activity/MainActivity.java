@@ -1,5 +1,6 @@
 package vn.edu.tlu.nhom7.calendar.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -18,7 +19,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import vn.edu.tlu.nhom7.calendar.R;
 import vn.edu.tlu.nhom7.calendar.activity.home.CalendarFragment;
+import vn.edu.tlu.nhom7.calendar.activity.task.CreateTaskActivity;
 import vn.edu.tlu.nhom7.calendar.activity.task.TaskFragment;
+import vn.edu.tlu.nhom7.calendar.activity.user.UserProfile;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
@@ -48,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.nav_taskManager) {
                     loadFragment(new TaskFragment(), false);
                 } else if (itemId == R.id.nav_userProfile) {
-//                    loadFragment(new UserProfileFragment(), false);
+//                    loadFragment(new UserProfileFragment(), false); Activity -> Fragment
+
+                    Intent intent = new Intent(MainActivity.this, UserProfile.class);
+                    startActivity(intent);
+                    finish();
                 }
 
                 return true;

@@ -7,18 +7,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CalendarView;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,9 +36,6 @@ import java.util.List;
 
 import vn.edu.tlu.nhom7.calendar.R;
 import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
-import vn.edu.tlu.nhom7.calendar.activity.task.CreateTaskActivity;
-import vn.edu.tlu.nhom7.calendar.activity.task.ShowTaskActivity;
-import vn.edu.tlu.nhom7.calendar.activity.task.UpdateTaskActivity;
 import vn.edu.tlu.nhom7.calendar.adapter.TaskAdapter;
 import vn.edu.tlu.nhom7.calendar.database.TaskDao;
 import vn.edu.tlu.nhom7.calendar.database.TaskDaoImpl;
@@ -42,9 +47,10 @@ public class TaskFragment extends Fragment {
     private List<Task> mListTask;
     private TaskAdapter taskAdapter;
     private RecyclerView rcvTask;
-    private CalendarView calendar;
+    private MaterialCalendarView calendar;
     private String dateSelected, idCurrentUser;
     private Button btnCreateTask;
+    private CalendarDay selectedDate; // Thêm khai báo biến này
 
     public TaskFragment() {
         // Required empty public constructor
@@ -80,13 +86,33 @@ public class TaskFragment extends Fragment {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         idCurrentUser = userDao.getIdCurrentUser();
 
-        long currentDateMillis = calendar.getDate();
+        // Initialize dateSelected with the current date
         Calendar calendarInstance = Calendar.getInstance();
-        calendarInstance.setTimeInMillis(currentDateMillis);
         int year = calendarInstance.get(Calendar.YEAR);
         int month = calendarInstance.get(Calendar.MONTH);
         int day = calendarInstance.get(Calendar.DAY_OF_MONTH);
         dateSelected = String.format("%02d/%02d/%d", day, month + 1, year);
+
+        // Set the selected date in the calendar
+        selectedDate = CalendarDay.today();
+        calendar.setDateSelected(selectedDate, true);
+
+        // Add decorator for the selected date
+        calendar.addDecorator(new DayViewDecorator() {
+            @Override
+            public boolean shouldDecorate(CalendarDay day) {
+                return day.equals(selectedDate);
+            }
+
+            @Override
+            public void decorate(DayViewFacade view) {
+                GradientDrawable drawable = new GradientDrawable();
+                drawable.setColor(Color.parseColor("#6750a4"));
+                drawable.setCornerRadius(8);
+                view.setBackgroundDrawable(drawable);
+                view.addSpan(new ForegroundColorSpan(Color.WHITE));
+            }
+        });
 
         getListTasksOfDay(dateSelected, idCurrentUser);
 
@@ -129,12 +155,19 @@ public class TaskFragment extends Fragment {
     }
 
     private void changeDay() {
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                dateSelected = String.format("%02d/%02d/%d", dayOfMonth, month + 1, year);
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                int year = date.getYear();
+                int month = date.getMonth() + 1;
+                int day = date.getDay();
+                dateSelected = String.format("%02d/%02d/%d", day, month, year);
                 Log.d("TaskFragment", "Selected date: " + dateSelected);
-                Log.d("TaskFragment2", "Selected date: " + idCurrentUser);
+
+                // Update the selected date and refresh the decorator
+                selectedDate = date;
+                calendar.invalidateDecorators();
+
                 getListTasksOfDay(dateSelected, idCurrentUser);
             }
         });
