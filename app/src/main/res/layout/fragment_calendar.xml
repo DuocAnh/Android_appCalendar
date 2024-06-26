@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="40dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
+    android:paddingTop="50dp"
+    android:orientation="vertical"
+
     android:background="@android:color/white"
     tools:context=".activity.home.CalendarFragment">
 
@@ -15,7 +15,14 @@
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:mcv_selectionColor="#000"
+        app:mcv_calendarMode="month"
+        app:mcv_firstDayOfWeek="monday"
+        app:mcv_selectionColor="#6750a4"
         app:mcv_showOtherDates="all"
-        />
+        app:mcv_tileHeight="42dp"
+        app:mcv_tileWidth="54dp"
+        app:mcv_dateTextAppearance="@style/CustomCalendarDateTextAppearance"
+        app:mcv_weekDayTextAppearance="@style/CustomCalendarWeekDayTextAppearance"
+        app:mcv_headerTextAppearance="@style/CustomCalendarHeaderTextAppearance" />
+
 </LinearLayout>
