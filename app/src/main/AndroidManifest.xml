@@ -26,10 +26,19 @@
             android:name=".activity.notification.NotificationActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.notification.NotificationHelper"
+            android:exported="false" />
+        <activity
+            android:name=".activity.notification.NotificationReceiver"
+            android:exported="false" />
+        <activity
             android:name=".activity.task.CreateTaskActivity"
             android:exported="false" />
         <activity
             android:name=".activity.task.ShowTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.task.TaskFragment"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
@@ -51,6 +60,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

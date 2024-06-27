@@ -26,6 +26,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -94,8 +98,21 @@ public class UserProfile extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        userID = firebaseAuth.getCurrentUser().getUid();
+//        Intent intent = getIntent();
+//        String userID = intent.getStringExtra("userID");
 
+        Intent intent = getIntent();
+        String photoUrl = intent.getStringExtra("photoUrl");
+
+        if (photoUrl != null) {
+            Glide.with(this)
+                    .load(photoUrl)
+                    .into(imageUser);
+        } else {
+            Toast.makeText(this, "No profile photo available", Toast.LENGTH_SHORT).show();
+        }
+
+        userID = firebaseAuth.getCurrentUser().getUid();
         user = firebaseAuth.getCurrentUser();
 
         if (!user.isEmailVerified()){
@@ -233,11 +250,22 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), MainSignUp.class));
-                Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
-                finish();
+
+                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
+                googleSignInClient.signOut().addOnCompleteListener(UserProfile.this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // Hiển thị thông báo đăng xuất thành công
+                        Toast.makeText(getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
+
+                        // Chuyển hướng người dùng đến MainSignUp activity
+                        startActivity(new Intent(getApplicationContext(), MainSignUp.class));
+                        finish();
+                    }
+                });
             }
         });
+
     }
 
     // up and down Image User
@@ -258,24 +286,21 @@ public class UserProfile extends AppCompatActivity {
 
     private void uploadImageToFirebase(Uri imageUri) {
         // upload image to firebase
-        StorageReference fileRef = storageReference.child("users/"+ Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()+"/profile.jpg");
-        fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(UserProfile.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(imageUser);
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(UserProfile.this, "Image not upload", Toast.LENGTH_SHORT).show();
-            }
-        });
+        StorageReference fileRef = storageReference.child("users/" + Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid() + "/profile.jpg");
+        fileRef.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+            Toast.makeText(UserProfile.this, "Image uploaded", Toast.LENGTH_LONG).show();
+            fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                Picasso.get().load(uri).into(imageUser);
+                // Optionally save the download URL to the user's profile in Firestore
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                String userID = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+                DocumentReference docRef = db.collection("users").document(userID);
+                docRef.update("profileImageUrl", uri.toString())
+                        .addOnSuccessListener(aVoid -> Toast.makeText(UserProfile.this, "Profile image URL saved", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(UserProfile.this, "Failed to save profile image URL", Toast.LENGTH_SHORT).show());
+            });
+        }).addOnFailureListener(e -> Toast.makeText(UserProfile.this, "Image not uploaded", Toast.LENGTH_SHORT).show());
     }
+
 }
 
