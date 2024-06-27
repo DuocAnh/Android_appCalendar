@@ -255,18 +255,10 @@ public class Login extends AppCompatActivity {
                             return;
                         }
 
-                        // Kiểm tra sự tồn tại của email trong Firebase Authentication
                         firebaseAuth.fetchSignInMethodsForEmail(mail).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
                             @Override
                             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
                                 if (task.isSuccessful()) {
-//                                    List<String> signInMethods = task.getResult().getSignInMethods();
-//                                    boolean isNewUser = (signInMethods == null || signInMethods.isEmpty());
-//
-//                                    if (isNewUser) {
-//                                        Toast.makeText(Login.this, "This email is not registered.", Toast.LENGTH_SHORT).show();
-//                                    } else {
-//                                        // Gửi email đặt lại mật khẩu
                                         firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) {
@@ -279,7 +271,6 @@ public class Login extends AppCompatActivity {
                                                 Toast.makeText(Login.this, "Error! Reset Link is Not Sent: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
-//                                    }
                                 } else{
                                     Toast.makeText(Login.this, "Error checking email existence: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
@@ -398,5 +389,4 @@ public class Login extends AppCompatActivity {
                     }
                 });
     }
-
 }
