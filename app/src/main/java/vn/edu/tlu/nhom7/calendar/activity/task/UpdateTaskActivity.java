@@ -148,6 +148,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(UpdateTaskActivity.this, MainActivity.class);
                         intent.putExtra("key_task", "task");
+                        intent.putExtra("key_date", strDate);
                         startActivity(intent);
                         finish();
                     }
