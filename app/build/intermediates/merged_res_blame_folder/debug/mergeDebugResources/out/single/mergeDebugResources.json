@@ -1,0 +1,266 @@
+[
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_task_cl_red.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_task_cl_red.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_activity_task.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/activity_task.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_activity_update_task.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/activity_update_task.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_pattern_task_edittext.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/pattern_task_edittext.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_activity_main.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/activity_main.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_background_2.jpg.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/background_2.jpg"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_dialog_reset_password1.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/dialog_reset_password1.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_google_plus.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/google_plus.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_shadown_btn_forcoused.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/shadown_btn_forcoused.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_custom_btn_1.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/custom_btn_1.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_linkedin.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/linkedin.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_activity_login.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/activity_login.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_task_menu.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_task_menu.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_alarm_notifications.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_alarm_notifications.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_backgroundoclock.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/backgroundoclock.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_rounded_corners.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/rounded_corners.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_activity_sign_up.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/activity_sign_up.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_task_cl_blue.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_task_cl_blue.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_custom_edt.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/custom_edt.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_facebook.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/facebook.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_launcher_background.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_activity_show_task.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/activity_show_task.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_shadown_btn.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/shadown_btn.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_custom_btn_2.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/custom_btn_2.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_task_clock.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_task_clock.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_activity_create_task.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/activity_create_task.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_baseline_account_box_24.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/baseline_account_box_24.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_twitter.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/twitter.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_user_avater.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/user_avater.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/xml_data_extraction_rules.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/xml_backup_rules.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_background1.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/background1.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_back_24.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_back_24.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_task_cl_yellow.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_task_cl_yellow.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_activity_main_sign_up.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/activity_main_sign_up.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_not_eye.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/not_eye.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_task_alarm.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_task_alarm.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_eye.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/eye.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_custom_edt1.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/custom_edt1.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_item_task.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/item_task.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_email_24.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/email_24.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_lock_24.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/lock_24.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_custom_btn.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/custom_btn.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/menu_task_popup_menu.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/menu/task_popup_menu.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_task_calendar.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_task_calendar.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_activity_notifications.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/activity_notifications.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_facebook1.png.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/facebook1.png"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_task_add.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_task_add.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_dialog_reset_password.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/dialog_reset_password.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/layout_activity_user_profile.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/layout/activity_user_profile.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_task_location.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_task_location.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_ic_task_cl_green.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/ic_task_cl_green.xml"
+    },
+    {
+        "merged": "vn.edu.tlu.nhom7.calendar.app-debug-39:/drawable_add.xml.flat",
+        "source": "vn.edu.tlu.nhom7.calendar.app-main-41:/drawable/add.xml"
+    }
+]

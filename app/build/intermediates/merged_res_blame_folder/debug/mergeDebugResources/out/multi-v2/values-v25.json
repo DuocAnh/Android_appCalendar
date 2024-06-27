@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "vn.edu.tlu.nhom7.calendar.app-mergeDebugResources-37:/values-v25/values-v25.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\dacso\\.gradle\\caches\\transforms-3\\b3e0350f732dcba2e4bc8427a0c64963\\transformed\\appcompat-1.6.1\\res\\values-v25\\values-v25.xml",
+                    "from": {
+                        "startLines": "2,3,4,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,126,209,308",
+                        "endLines": "2,3,5,7",
+                        "endColumns": "70,82,12,12",
+                        "endOffsets": "121,204,303,414"
+                    }
+                }
+            ]
+        }
+    ]
+}
