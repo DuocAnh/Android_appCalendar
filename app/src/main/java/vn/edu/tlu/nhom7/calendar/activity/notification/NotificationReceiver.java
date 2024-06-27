@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import vn.edu.tlu.nhom7.calendar.R;
-import vn.edu.tlu.nhom7.calendar.activity.task.TaskActivity;
+import vn.edu.tlu.nhom7.calendar.activity.task.TaskFragment;
 
 public class NotificationReceiver extends BroadcastReceiver {
     @Override
@@ -22,7 +22,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         String startTime = intent.getStringExtra("startTime");
         String endTime = intent.getStringExtra("endTime");
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, TaskActivity.CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, TaskFragment.CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_alarm_notifications)
                 .setContentTitle(taskName)
                 .setContentText(startTime + " - " + endTime + ": " + taskDescription)

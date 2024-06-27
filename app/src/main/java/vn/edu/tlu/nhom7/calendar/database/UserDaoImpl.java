@@ -23,7 +23,8 @@ public class UserDaoImpl implements UserDao {
     public String getIdCurrentUser() {
         if (firebaseAuth.getCurrentUser() != null) {
             return firebaseAuth.getCurrentUser().getUid();
+        } else {
+            return "0";
         }
-        return "0";
     }
 }

@@ -1,4 +1,4 @@
-package vn.edu.tlu.nhom7.calendar.activity.task;
+package vn.edu.tlu.nhom7.calendar.activity.user;
 
 import static android.util.Log.d;
 
@@ -61,6 +61,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import vn.edu.tlu.nhom7.calendar.R;
+import vn.edu.tlu.nhom7.calendar.activity.MainActivity;
+import vn.edu.tlu.nhom7.calendar.database.UserDaoImpl;
 
 public class Login extends AppCompatActivity {
 
@@ -101,6 +103,17 @@ public class Login extends AppCompatActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        String idCurrentUser = userDao.getIdCurrentUser();
+        Log.d("Iduser", idCurrentUser);
+        if(idCurrentUser == "0"){
+
+        } else {
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
@@ -309,6 +322,7 @@ public class Login extends AppCompatActivity {
 //                                                Intent intent = new Intent(Login.this,UserProfile.class);
 //                                                intent.putExtra("userID",userID);
 //                                                startActivity(intent);
+                                                startActivity(new Intent(Login.this, MainActivity.class));
                                                 finish();
                                             }
                                         })
