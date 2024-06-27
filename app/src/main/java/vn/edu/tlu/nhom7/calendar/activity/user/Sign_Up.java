@@ -1,4 +1,4 @@
-package vn.edu.tlu.nhom7.calendar.activity.task;
+package vn.edu.tlu.nhom7.calendar.activity.user;
 
 import android.content.Intent;
 import android.util.Log;

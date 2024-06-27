@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import vn.edu.tlu.nhom7.calendar.activity.task.MainSignUp;
+import vn.edu.tlu.nhom7.calendar.activity.user.MainSignUp;
 import vn.edu.tlu.nhom7.calendar.R;
 
 public class MainActivity extends AppCompatActivity {

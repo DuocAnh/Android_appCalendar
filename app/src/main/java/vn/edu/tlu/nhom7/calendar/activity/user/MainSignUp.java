@@ -1,4 +1,4 @@
-package vn.edu.tlu.nhom7.calendar.activity.task;
+package vn.edu.tlu.nhom7.calendar.activity.user;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -28,13 +28,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -43,8 +39,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -97,7 +91,7 @@ public class MainSignUp extends AppCompatActivity {
         btn_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainSignUp.this,Login.class);
+                Intent intent = new Intent(MainSignUp.this, Login.class);
                 startActivity(intent);
             }
         });
@@ -105,7 +99,7 @@ public class MainSignUp extends AppCompatActivity {
         btn_PhoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainSignUp.this,Sign_Up.class);
+                Intent intent = new Intent(MainSignUp.this, Sign_Up.class);
                 startActivity(intent);
             }
         });
@@ -194,7 +188,7 @@ public class MainSignUp extends AppCompatActivity {
                                                 .addOnSuccessListener(aVoid -> {
                                                     Toast.makeText(MainSignUp.this, "User profile is created for " + userID, Toast.LENGTH_SHORT).show();
 
-                                                    Intent intent = new Intent(MainSignUp.this,UserProfile.class);
+                                                    Intent intent = new Intent(MainSignUp.this, UserProfile.class);
                                                     intent.putExtra("photoUrl",photoUrl.toString());
                                                     startActivity(intent);
 //                                                    startActivity(new Intent(MainSignUp.this, UserProfile.class));

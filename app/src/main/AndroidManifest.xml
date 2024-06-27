@@ -29,7 +29,7 @@
             android:name=".activity.task.CreateTaskActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.task.Login"
+            android:name=".activity.user.Login"
             android:exported="false" />
         <activity
             android:name=".activity.task.TaskActivity"
@@ -44,13 +44,13 @@
             android:name=".activity.task.ShowTaskActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.task.Sign_Up"
+            android:name=".activity.user.Sign_Up"
             android:exported="false" />
         <activity
-            android:name=".activity.task.UserProfile"
+            android:name=".activity.user.UserProfile"
             android:exported="false" />
         <activity
-            android:name=".activity.task.MainSignUp"
+            android:name=".activity.user.MainSignUp"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
