@@ -90,9 +90,9 @@ public class Sign_Up extends AppCompatActivity {
 
         edt_Name.setOnFocusChangeListener((v, hasFocus) -> {
             if(hasFocus) {
-                tv_Email.setTextColor(tv);
+                tv_Name.setTextColor(tv);
             }else {
-                tv_Email.setTextColor(tvColor);
+                tv_Name.setTextColor(tvColor);
             }
         });
         edt_Email.setOnFocusChangeListener((v, hasFocus) -> {

@@ -102,7 +102,7 @@
                 </ImageView>
                 <TextView
                     android:textColor="@color/white"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="8dp"
                     android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -115,11 +115,11 @@
             android:layout_marginTop="20dp"
             android:layout_width="270dp"
             android:layout_height="35dp"
-            android:text="I'll use email or phone"
+            android:text="I'll use Email or Phone "
             app:backgroundTint="@null"
             android:gravity="center"
             android:padding="0dp"
-            android:background="@drawable/custom_edt"
+            android:background="@drawable/custom_edt1"
             android:textColor="#5E5B5B"
             android:textSize="15sp"/>
             <RelativeLayout
@@ -168,6 +168,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Login"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
                     android:textColor="#3D5AFE">
                 </TextView>
             </LinearLayout>
