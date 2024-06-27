@@ -272,18 +272,18 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
                                 if (task.isSuccessful()) {
-                                        firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                Toast.makeText(Login.this, "Reset Link Sent To Your Email.", Toast.LENGTH_LONG).show();
-                                                dialog.dismiss();
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(Login.this, "Error! Reset Link is Not Sent: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                    firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(Login.this, "Reset Link Sent To Your Email.", Toast.LENGTH_LONG).show();
+                                            dialog.dismiss();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(Login.this, "Error! Reset Link is Not Sent: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 } else{
                                     Toast.makeText(Login.this, "Error checking email existence: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }

@@ -250,21 +250,3 @@ public class MainSignUp extends AppCompatActivity {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

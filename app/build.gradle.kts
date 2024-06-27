@@ -60,7 +60,7 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
-
     implementation("com.prolificinteractive:material-calendarview:1.4.2")
     implementation ("com.squareup.picasso:picasso:2.8")
 }
+

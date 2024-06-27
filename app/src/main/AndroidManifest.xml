@@ -41,6 +41,9 @@
             android:name=".activity.task.TaskFragment"
             android:exported="false" />
         <activity
+            android:name=".activity.MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.task.UpdateTaskActivity"
             android:exported="false" />
         <activity
