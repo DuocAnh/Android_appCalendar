@@ -1,6 +1,7 @@
 package vn.edu.tlu.nhom7.calendar.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -36,11 +37,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavView);
         frameLayout = findViewById(R.id.frameLayout);
 
-        if (getIntent().hasExtra("key_task") && getIntent().getStringExtra("key_task").equals("task")) {
-            loadFragment(new TaskFragment(), true); // Load TaskFragment with addToBackStack
-        } else {
-            loadFragment(new CalendarFragment(), false); // Load CalendarFragment
-        }
+        intentTask();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -57,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-
                 return true;
             }
         });
@@ -71,5 +67,14 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frameLayout, fragment);
         }
         fragmentTransaction.commit();
+    }
+
+    private void intentTask() {
+        if (getIntent().hasExtra("key_task") && getIntent().getStringExtra("key_task").equals("task")) {
+            loadFragment(new TaskFragment(), true);
+        } else {
+            loadFragment(new CalendarFragment(), true);
+        }
+
     }
 }

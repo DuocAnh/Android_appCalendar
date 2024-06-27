@@ -82,6 +82,14 @@ public class CreateTaskActivity extends AppCompatActivity {
         etTaskName.setFilters(new InputFilter[] { new InputFilter.LengthFilter(100) });
         etTaskDescription.setFilters(new InputFilter[] { new InputFilter.LengthFilter(200) });
         etLocation.setFilters(new InputFilter[] { new InputFilter.LengthFilter(100) });
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            String date = intent.getStringExtra("key_createTask");
+            if (date != null) {
+                etDate.setText(date);
+            }
+        }
     }
 
     private void addTask() {
@@ -120,6 +128,7 @@ public class CreateTaskActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(CreateTaskActivity.this, MainActivity.class);
                         intent.putExtra("key_task", "task");
+                        intent.putExtra("key_date", strDate);
                         startActivity(intent);
                         finish();
                     }
