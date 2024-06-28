@@ -20,6 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Calendar"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.user.FacebookActivity"
+            android:exported="false" />
+
         <receiver android:name=".activity.notification.NotificationReceiver" />
 
         <activity
@@ -64,6 +68,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
     </application>
 
 </manifest>

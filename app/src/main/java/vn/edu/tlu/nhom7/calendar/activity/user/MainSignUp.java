@@ -45,6 +45,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -115,6 +117,15 @@ public class MainSignUp extends AppCompatActivity {
         googleSignInClient = GoogleSignIn.getClient(this,gso);
 
         btn_Google.setOnClickListener(v -> signIn());
+
+        btn_Facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainSignUp.this,FacebookActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
 
     }
     private void signIn() {

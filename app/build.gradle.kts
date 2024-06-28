@@ -62,5 +62,6 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
     implementation("com.prolificinteractive:material-calendarview:1.4.2")
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("com.facebook.android:facebook-android-sdk:latest.release")
 }
 
