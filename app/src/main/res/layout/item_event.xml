@@ -1,9 +1,11 @@
-<!-- res/layout/item_event.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@drawable/border_event"
+    android:layout_marginLeft="18dp"
+    android:layout_marginRight="18dp"
+    android:padding="14dp">
 
     <TextView
         android:id="@+id/event_date"
@@ -17,5 +19,6 @@
         android:id="@+id/event_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp" />
+        android:textStyle="bold"
+        android:textSize="18sp" />
 </LinearLayout>

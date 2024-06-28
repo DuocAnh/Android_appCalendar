@@ -18,7 +18,7 @@ import vn.edu.tlu.nhom7.calendar.model.Task;
 
 public class ShowTaskActivity extends AppCompatActivity {
     private TextView show_taskName, show_startTime, show_endTime, show_date, show_alarmTime,
-            show_taskDescription, show_location;
+            show_taskDescription, show_location, color;
     private ImageView show_imageColor;
     private ImageButton img_buttonback;
 
@@ -43,6 +43,7 @@ public class ShowTaskActivity extends AppCompatActivity {
         show_alarmTime = findViewById(R.id.show_alarmTime);
         show_taskDescription = findViewById(R.id.show_taskDescription);
         show_location = findViewById(R.id.show_location);
+        color = findViewById(R.id.color);
         show_imageColor = findViewById(R.id.show_imageColor);
         img_buttonback = findViewById(R.id.img_buttonback);
     }
@@ -57,6 +58,7 @@ public class ShowTaskActivity extends AppCompatActivity {
             show_date.setText(task.getDate());
             show_alarmTime.setText(task.getAlarmTime());
             show_taskDescription.setText(task.getTaskDescription());
+            color.setText(task.getColor());
             if (task.getLocation().isEmpty()) {
                 show_location.setText("...");
             } else {

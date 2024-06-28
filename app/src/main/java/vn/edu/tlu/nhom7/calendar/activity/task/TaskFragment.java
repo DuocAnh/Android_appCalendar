@@ -50,7 +50,6 @@ import vn.edu.tlu.nhom7.calendar.database.UserDaoImpl;
 import vn.edu.tlu.nhom7.calendar.model.Task;
 
 public class TaskFragment extends Fragment {
-    public static final String CHANNEL_ID = "1";
     private List<Task> mListTask;
     private TaskAdapter taskAdapter;
     private RecyclerView rcvTask;
@@ -131,19 +130,6 @@ public class TaskFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Task Channel";
-            String description = "Channel for task notifications";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-
-            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
 
         return rootView;
     }
