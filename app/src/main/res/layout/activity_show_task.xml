@@ -49,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
+            android:textStyle="bold"
             android:text="Task Name"/>
 
         <LinearLayout
@@ -85,6 +86,20 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:text="23:59" />
+
+            <TextView
+                android:id="@+id/space2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="    *" />
+
+            <TextView
+                android:id="@+id/color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Công việc" />
         </LinearLayout>
 
         <LinearLayout

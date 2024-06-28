@@ -1,5 +1,7 @@
 package vn.edu.tlu.nhom7.calendar.activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +27,8 @@ import vn.edu.tlu.nhom7.calendar.activity.task.TaskFragment;
 import vn.edu.tlu.nhom7.calendar.activity.user.UserProfile;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String CHANNEL_ID = "1";
+
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
 
@@ -34,9 +38,15 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        intentTask();
         bottomNavigationView = findViewById(R.id.bottomNavView);
         frameLayout = findViewById(R.id.frameLayout);
+
+        if (getIntent().hasExtra("key_task")) {
+            loadFragment(new TaskFragment(), false);
+            getIntent().removeExtra("key_task");
+        } else {
+            loadFragment(new CalendarFragment(), false);
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -56,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        createNotificationChannel();
     }
     private void loadFragment (Fragment fragment, boolean isAppInitialized) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -68,12 +79,18 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void intentTask() {
-        if (getIntent().hasExtra("key_task") && getIntent().getStringExtra("key_task").equals("task")) {
-            loadFragment(new TaskFragment(), true);
-        } else {
-            loadFragment(new CalendarFragment(), true);
-        }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Task Channel";
+            String description = "Channel for task notifications";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
 
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
     }
 }
