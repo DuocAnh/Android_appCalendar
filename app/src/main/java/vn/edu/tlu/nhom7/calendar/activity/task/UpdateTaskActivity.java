@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -35,6 +36,8 @@ public class UpdateTaskActivity extends AppCompatActivity {
     private int id;
     private String idCurrentUser;
     private Button btnUpdateTask;
+    private ImageButton img_buttonback;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
                 editTask();
             }
         });
-
+        setupBackButton();
     }
 
     public void initUi() {
@@ -72,6 +75,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
         spColor = findViewById(R.id.spColor);
         btnUpdateTask = findViewById(R.id.btnUpdateTask);
         imageColor = findViewById(R.id.imageColor);
+        img_buttonback = findViewById(R.id.img_buttonback);
 
         etTaskName.setFilters(new InputFilter[] { new InputFilter.LengthFilter(100) });
         etTaskDescription.setFilters(new InputFilter[] { new InputFilter.LengthFilter(200) });
@@ -97,7 +101,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
                     break;
                 }
             }
-            String[] colors = {"Xanh dương", "Xanh lục", "Vàng", "Đỏ"};
+            String[] colors = {"Công việc", "Học tập", "Giải trí", "Việc quan trọng"};
             int[] colorDrawables = {
                     R.drawable.ic_task_cl_blue,
                     R.drawable.ic_task_cl_green,
@@ -167,7 +171,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
     }
 
     private void showColor() {
-        String[] colors = {"Xanh dương", "Xanh lục", "Vàng", "Đỏ"};
+        String[] colors = {"Công việc", "Học tập", "Giải trí", "Việc quan trọng"};
         int[] colorDrawables = {
                 R.drawable.ic_task_cl_blue,
                 R.drawable.ic_task_cl_green,
@@ -187,6 +191,14 @@ public class UpdateTaskActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+    private void setupBackButton() {
+        img_buttonback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }

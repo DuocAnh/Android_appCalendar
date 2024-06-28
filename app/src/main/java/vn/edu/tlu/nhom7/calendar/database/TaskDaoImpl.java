@@ -38,6 +38,25 @@ public class TaskDaoImpl implements TaskDao {
         }
     }
 
+    public void getAllTasks(String idUser, final getAllTasksCallBack callback) {
+        tasksCollection.whereEqualTo("idCurrentUser", idUser)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
+                        if (e != null) {
+                            return;
+                        }
+
+                        List<Task> dbListTask = new ArrayList<>();
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Task task = documentSnapshot.toObject(Task.class);
+                            dbListTask.add(task);
+                        }
+                        callback.onCallback(dbListTask);
+                    }
+                });
+    }
+
     public void getTaskOfDay(String date, String idUser, final FirebaseCallback callback) {
         tasksCollection.whereEqualTo("date", date)
                 .whereEqualTo("idCurrentUser", idUser)

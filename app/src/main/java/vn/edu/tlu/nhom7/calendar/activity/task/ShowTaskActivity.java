@@ -1,6 +1,8 @@
 package vn.edu.tlu.nhom7.calendar.activity.task;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ public class ShowTaskActivity extends AppCompatActivity {
     private TextView show_taskName, show_startTime, show_endTime, show_date, show_alarmTime,
             show_taskDescription, show_location;
     private ImageView show_imageColor;
+    private ImageButton img_buttonback;
 
     private int id;
 
@@ -29,7 +32,7 @@ public class ShowTaskActivity extends AppCompatActivity {
 
         initUi();
         getTask();
-
+        setupBackButton();
     }
 
     public void initUi() {
@@ -41,6 +44,7 @@ public class ShowTaskActivity extends AppCompatActivity {
         show_taskDescription = findViewById(R.id.show_taskDescription);
         show_location = findViewById(R.id.show_location);
         show_imageColor = findViewById(R.id.show_imageColor);
+        img_buttonback = findViewById(R.id.img_buttonback);
     }
 
     public void getTask() {
@@ -59,7 +63,7 @@ public class ShowTaskActivity extends AppCompatActivity {
                 show_location.setText(task.getLocation());
             }
 
-            String[] colors = {"Xanh dương", "Xanh lục", "Vàng", "Đỏ"};
+            String[] colors = {"Công việc", "Học tập", "Giải trí", "Việc quan trọng"};
             int[] colorDrawables = {
                     R.drawable.ic_task_cl_blue,
                     R.drawable.ic_task_cl_green,
@@ -73,5 +77,13 @@ public class ShowTaskActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+    private void setupBackButton() {
+        img_buttonback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }
