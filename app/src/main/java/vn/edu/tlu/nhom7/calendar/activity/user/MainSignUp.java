@@ -94,20 +94,14 @@ public class MainSignUp extends AppCompatActivity {
         firebaseFirestore =  FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        btn_Login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainSignUp.this,Login.class);
-                startActivity(intent);
-            }
+        btn_Login.setOnClickListener(v -> {
+            Intent intent = new Intent(MainSignUp.this,Login.class);
+            startActivity(intent);
         });
 
-        btn_PhoneNumber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainSignUp.this,Sign_Up.class);
-                startActivity(intent);
-            }
+        btn_PhoneNumber.setOnClickListener(v -> {
+            Intent intent = new Intent(MainSignUp.this,Sign_Up.class);
+            startActivity(intent);
         });
 
         progressDialog = new ProgressDialog(MainSignUp.this);
@@ -120,12 +114,7 @@ public class MainSignUp extends AppCompatActivity {
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this,gso);
 
-        btn_Google.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
+        btn_Google.setOnClickListener(v -> signIn());
 
     }
     private void signIn() {
@@ -186,7 +175,6 @@ public class MainSignUp extends AppCompatActivity {
                                             uploadImageToFirebase(photoUrl);
                                         } else {
                                             Toast.makeText(MainSignUp.this, "User does not have a profile photo", Toast.LENGTH_SHORT).show();
-                                            // Proceed without profile photo handling if necessary
                                         }
 
                                         db.collection("users").document(userID)
@@ -195,9 +183,9 @@ public class MainSignUp extends AppCompatActivity {
                                                     Toast.makeText(MainSignUp.this, "User profile is created for " + userID, Toast.LENGTH_SHORT).show();
 
                                                     Intent intent = new Intent(MainSignUp.this,UserProfile.class);
+                                                    assert photoUrl != null;
                                                     intent.putExtra("photoUrl",photoUrl.toString());
                                                     startActivity(intent);
-//                                                    startActivity(new Intent(MainSignUp.this, UserProfile.class));
                                                 })
                                                 .addOnFailureListener(e -> {
                                                     Toast.makeText(MainSignUp.this, "Failed to create user profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -41,7 +42,7 @@ public class Sign_Up extends AppCompatActivity {
 
     TextView tv_Name, tv_Email, tv_Password, messes, messes1, messes2;
     EditText edt_Name, edt_Email, edt_Password;
-    ImageButton img_Showpass;
+    ImageButton img_Showpass, callback;
     Button btn_SignUp;
     boolean isPasswordVisible = false;
     private FirebaseAuth firebaseAuth;
@@ -62,6 +63,7 @@ public class Sign_Up extends AppCompatActivity {
         messes = findViewById(R.id.tv_message);
         messes1 = findViewById(R.id.tv_message1);
         messes2 = findViewById(R.id.tv_message2);
+        callback = findViewById(R.id.img_backSignup);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,12 @@ public class Sign_Up extends AppCompatActivity {
         String Name = edt_Name.getText().toString().trim();
 
 
+        callback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Sign_Up.this,MainSignUp.class));
+            }
+        });
 
         edt_Name.setOnFocusChangeListener((v, hasFocus) -> {
             if(hasFocus) {

@@ -62,6 +62,8 @@ import java.util.Objects;
 
 import vn.edu.tlu.nhom7.calendar.R;
 import vn.edu.tlu.nhom7.calendar.activity.MainActivity;
+import vn.edu.tlu.nhom7.calendar.activity.task.ShowTaskActivity;
+import vn.edu.tlu.nhom7.calendar.activity.task.TaskFragment;
 import vn.edu.tlu.nhom7.calendar.database.UserDaoImpl;
 
 public class Login extends AppCompatActivity {
@@ -69,9 +71,8 @@ public class Login extends AppCompatActivity {
     EditText edt_Email , edt_Password;
     TextView tv_Email, tv_Password, tv_ForPassword, tv_messes, tv_messes1;
 
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch sw_Remmember;
-    ImageButton imgbtn_Facebook, imbtn_Google, imgbtn_Twitter, showPasswork;
+    ImageButton imgbtn_Facebook, imbtn_Google, imgbtn_Twitter, showPasswork, back;
     Button btn_Login;
     LinearLayout ll_Email, ll_passWord;
 
@@ -100,6 +101,7 @@ public class Login extends AppCompatActivity {
         ll_Email = findViewById(R.id.ll_email);
         ll_passWord = findViewById(R.id.ll_Remmember);
         showPasswork = findViewById(R.id.img_Eye);
+        back = findViewById(R.id.img_back);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +155,14 @@ public class Login extends AppCompatActivity {
         int tvColor = tv_Email.getCurrentTextColor();
         int paddingBottomPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
         int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,48, getResources().getDisplayMetrics());
+
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this,MainSignUp.class));
+            }
+        });
 
         edt_Email.setOnFocusChangeListener((v, hasFocus) -> {
             if(hasFocus) {
@@ -238,6 +248,7 @@ public class Login extends AppCompatActivity {
             edt_Password.setSelection(edt_Password.getText().length());
         });
 
+
         tv_ForPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -322,7 +333,7 @@ public class Login extends AppCompatActivity {
 //                                                Intent intent = new Intent(Login.this,UserProfile.class);
 //                                                intent.putExtra("userID",userID);
 //                                                startActivity(intent);
-                                                startActivity(new Intent(Login.this, MainActivity.class));
+                                                startActivity(new Intent(Login.this, ShowTaskActivity.class));
                                                 finish();
                                             }
                                         })
