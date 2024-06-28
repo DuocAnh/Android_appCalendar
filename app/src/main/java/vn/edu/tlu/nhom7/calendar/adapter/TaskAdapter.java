@@ -1,5 +1,6 @@
 package vn.edu.tlu.nhom7.calendar.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,19 +58,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.tv_TaskName.setText(task.getTaskName());
         holder.tv_Detail.setText(task.getTaskDescription());
 
-        switch (task.getColor().trim().toLowerCase()) {
-            case "xanh dương":
-                holder.tv_imageColor.setImageResource(R.drawable.ic_task_cl_blue);
-                break;
-            case "xanh lục":
-                holder.tv_imageColor.setImageResource(R.drawable.ic_task_cl_green);
-                break;
-            case "đỏ":
-                holder.tv_imageColor.setImageResource(R.drawable.ic_task_cl_red);
-                break;
-            default:
-                holder.tv_imageColor.setImageResource(R.drawable.ic_task_cl_yellow);
-                break;
+        String lowerCase = task.getColor().trim().toLowerCase();
+        Log.d("Color2", lowerCase);
+        if (lowerCase.equals("công việc")) {
+            holder.tv_imageColor.setImageResource(R.drawable.ic_task_cl_blue);
+        } else if (lowerCase.equals("học tập")) {
+            holder.tv_imageColor.setImageResource(R.drawable.ic_task_cl_green);
+        } else if (lowerCase.equals("giải trí")) {
+            holder.tv_imageColor.setImageResource(R.drawable.ic_task_cl_yellow);
+        } else {
+            holder.tv_imageColor.setImageResource(R.drawable.ic_task_cl_red);
         }
 
         holder.itemTask.setOnClickListener(new View.OnClickListener() {

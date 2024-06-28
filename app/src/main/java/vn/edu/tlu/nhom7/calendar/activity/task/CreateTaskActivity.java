@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -41,7 +42,10 @@ public class CreateTaskActivity extends AppCompatActivity {
     private Spinner spAlarmTime, spColor;
     private ImageView imageColor;
     private int id;
+    private String idCurrentUser;
     private Button btnCreateTask;
+    private ImageButton img_buttonback;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,10 @@ public class CreateTaskActivity extends AppCompatActivity {
         showColor();
 
         getNextId();
+        UserDaoImpl userDao = UserDaoImpl.getInstance();
+        idCurrentUser = userDao.getIdCurrentUser();
 
+        setupBackButton();
         btnCreateTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +85,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         etLocation = findViewById(R.id.etLocation);
         btnCreateTask = findViewById(R.id.btnCreateTask);
         imageColor = findViewById(R.id.imageColor);
+        img_buttonback = findViewById(R.id.img_buttonback);
 
         etTaskName.setFilters(new InputFilter[] { new InputFilter.LengthFilter(100) });
         etTaskDescription.setFilters(new InputFilter[] { new InputFilter.LengthFilter(200) });
@@ -112,25 +120,26 @@ public class CreateTaskActivity extends AppCompatActivity {
             } else if (startTime != null && endTime != null && !endTime.after(startTime)) {
                 Toast.makeText(this, "Thời gian kết thúc phải sau thời gian bắt đầu", Toast.LENGTH_SHORT).show();
             } else {
-                UserDaoImpl userDao = UserDaoImpl.getInstance();
-                String idCurrentUser = userDao.getIdCurrentUser();
                 Task task = new Task(id, strTaskName, strTaskDescription, strDate, strStartTime, strEndTime, strAlarmTime, strColor, strLocation, idCurrentUser);
 
-                TaskDaoImpl taskDAO = TaskDaoImpl.getInstance();
-                taskDAO.isTaskExists(task, existingTask -> {
-                    if (existingTask != null) {
-                        Toast.makeText(CreateTaskActivity.this, "Bản ghi đã tồn tại", Toast.LENGTH_SHORT).show();
-                    } else {
-                        taskDAO.createTask(task);
-                        Toast.makeText(CreateTaskActivity.this, "Thêm công việc thành công", Toast.LENGTH_SHORT).show();
+                TaskDaoImpl taskDao = TaskDaoImpl.getInstance();
+                taskDao.isTaskExists(task, new TaskDao.TaskExistsCallback() {
+                    @Override
+                    public void onCallback(Task existingTask) {
+                        if (existingTask != null) {
+                            Toast.makeText(CreateTaskActivity.this, "Bản ghi đã tồn tại", Toast.LENGTH_SHORT).show();
+                        } else {
+                            taskDao.createTask(task);
+                            Toast.makeText(CreateTaskActivity.this, "Thêm công việc thành công", Toast.LENGTH_SHORT).show();
 
-                        NotificationHelper.setAlarm(this, task);
+                            NotificationHelper.setAlarm(CreateTaskActivity.this, task);
 
-                        Intent intent = new Intent(CreateTaskActivity.this, MainActivity.class);
-                        intent.putExtra("key_task", "task");
-                        intent.putExtra("key_date", strDate);
-                        startActivity(intent);
-                        finish();
+                            Intent intent = new Intent(CreateTaskActivity.this, MainActivity.class);
+                            intent.putExtra("key_task", "task");
+                            intent.putExtra("key_date", strDate);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 });
             }
@@ -211,7 +220,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     }
 
     private void showColor() {
-        String[] colors = {"Xanh dương", "Xanh lục", "Vàng", "Đỏ"};
+        String[] colors = {"Công việc", "Học tập", "Giải trí", "Việc quan trọng"};
         int[] colorDrawables = {
                 R.drawable.ic_task_cl_blue,
                 R.drawable.ic_task_cl_green,
@@ -231,6 +240,14 @@ public class CreateTaskActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+    private void setupBackButton() {
+        img_buttonback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }
