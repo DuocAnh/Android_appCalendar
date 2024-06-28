@@ -31,13 +31,17 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import vn.edu.tlu.nhom7.calendar.R;
+import vn.edu.tlu.nhom7.calendar.activity.home.CurrentDayDecorator;
 import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
 import vn.edu.tlu.nhom7.calendar.adapter.TaskAdapter;
 import vn.edu.tlu.nhom7.calendar.database.TaskDao;
@@ -85,12 +89,11 @@ public class TaskFragment extends Fragment {
         });
         rcvTask.setAdapter(taskAdapter);
 
+        getDate();
+        calendar.setDateSelected(selectedDate, true);
+
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         idCurrentUser = userDao.getIdCurrentUser();
-
-        getDate();
-
-        calendar.setDateSelected(selectedDate, true);
 
         calendar.addDecorator(new DayViewDecorator() {
             @Override
@@ -107,11 +110,19 @@ public class TaskFragment extends Fragment {
                 view.addSpan(new ForegroundColorSpan(Color.WHITE));
             }
         });
-
+        TaskDaoImpl.getInstance().getAllTasks(idCurrentUser, new TaskDao.getAllTasksCallBack() {
+            @Override
+            public void onCallback(List<Task> mListTask){
+                try {
+                    highlightDates(mListTask);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            });
         getListTasksOfDay(dateSelected, idCurrentUser);
 
         changeDay();
-
         btnCreateTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,6 +181,27 @@ public class TaskFragment extends Fragment {
         }
     }
 
+    private void highlightDates(List<Task> mListTask) throws ParseException {
+        for (Task task : mListTask) {
+            int color;
+            Log.d("Color", task.getColor());
+            if (task.getColor().equals("Công việc")) {
+                color = ContextCompat.getColor(requireContext(), R.color.color_hightlighBlue);
+            } else if (task.getColor().equals("Học tập")) {
+                color = ContextCompat.getColor(requireContext(), R.color.color_hightlighGreen);
+            } else if (task.getColor().equals("Giải trí")) {
+                color = ContextCompat.getColor(requireContext(), R.color.color_hightlighYellow);
+            } else {
+                color = ContextCompat.getColor(requireContext(), R.color.color_hightlighRed);
+            }
+
+            Date taskDate = new SimpleDateFormat("dd/MM/yyyy").parse(task.getDate());
+            CurrentDayDecorator decorator = new CurrentDayDecorator(taskDate, color);
+            calendar.addDecorator(decorator);
+        }
+    }
+
+
     private void changeDay() {
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
@@ -200,7 +232,6 @@ public class TaskFragment extends Fragment {
                 });
                 taskAdapter.setData(mListTask);
 
-                // Show or hide the GIF based on the task list
                 if (mListTask == null || mListTask.isEmpty()) {
                     gifImageView.setVisibility(View.VISIBLE);
                     rcvTask.setVisibility(View.GONE);
