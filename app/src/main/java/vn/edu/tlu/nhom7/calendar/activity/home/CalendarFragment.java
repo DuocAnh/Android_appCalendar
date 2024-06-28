@@ -5,12 +5,14 @@ import android.graphics.drawable.GradientDrawable;
 import android.icu.util.ChineseCalendar;
 import android.os.Bundle;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,9 +26,13 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import vn.edu.tlu.nhom7.calendar.R;
 import vn.edu.tlu.nhom7.calendar.adapter.EventAdapter;
 import vn.edu.tlu.nhom7.calendar.model.Event;
+import vn.edu.tlu.nhom7.calendar.model.Task;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class CalendarFragment extends Fragment {
@@ -91,6 +97,12 @@ public class CalendarFragment extends Fragment {
 
         updateEventListForSelectedMonth(selectedDate);
 
+        try {
+            highlightDates(eventList);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
         return rootView;
     }
 
@@ -131,9 +143,14 @@ public class CalendarFragment extends Fragment {
         eventList.add(new Event("22/04", "Ngày Trái Đất"));
         eventList.add(new Event("30/04", "Ngày Giải phóng miền Nam, thống nhất đất nước"));
         eventList.add(new Event("01/05", "Ngày Quốc tế Lao động"));
+        eventList.add(new Event("07/05", "Ngày Chiến thắng Điện Biên Phủ"));
+        eventList.add(new Event("09/05", "Ngày của Mẹ"));
         eventList.add(new Event("19/05", "Ngày sinh Chủ tịch Hồ Chí Minh"));
         eventList.add(new Event("01/06", "Ngày Quốc tế Thiếu nhi"));
+        eventList.add(new Event("05/06", "Ngày Môi trường Thế giới"));
+        eventList.add(new Event("17/06", "Ngày phòng chống sa mạc hóa và hạn hán thế giới"));
         eventList.add(new Event("28/06", "Ngày Gia đình Việt Nam"));
+        eventList.add(new Event("11/07", "Ngày Dân số Thế giới"));
         eventList.add(new Event("27/07", "Ngày Thương binh liệt sĩ"));
         eventList.add(new Event("19/08", "Ngày Cách mạng tháng Tám thành công"));
         eventList.add(new Event("02/09", "Ngày Quốc khánh"));
@@ -157,5 +174,22 @@ public class CalendarFragment extends Fragment {
         }
 
         eventAdapter.notifyDataSetChanged();
+    }
+
+    private void highlightDates(List<Event> eventList) throws ParseException {
+        for (Event event : eventList) {
+            String date;
+            int color = ContextCompat.getColor(requireContext(), R.color.color_hightlighEvent);
+
+            for (int year = 2020; year <= 2029; year++) {
+                date = event.getDate() + "/" + year;
+                try {
+                    Date eventDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                    CurrentDayDecorator decorator = new CurrentDayDecorator(eventDate, color);
+                    calendar.addDecorator(decorator);
+                } catch (ParseException e) {
+                }
+            }
+        }
     }
 }

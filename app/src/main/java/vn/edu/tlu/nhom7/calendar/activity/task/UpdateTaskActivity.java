@@ -24,6 +24,7 @@ import java.util.Date;
 import vn.edu.tlu.nhom7.calendar.R;
 import vn.edu.tlu.nhom7.calendar.activity.MainActivity;
 import vn.edu.tlu.nhom7.calendar.activity.notification.NotificationHelper;
+import vn.edu.tlu.nhom7.calendar.database.TaskDao;
 import vn.edu.tlu.nhom7.calendar.database.TaskDaoImpl;
 import vn.edu.tlu.nhom7.calendar.database.UserDaoImpl;
 import vn.edu.tlu.nhom7.calendar.model.Task;
@@ -135,26 +136,29 @@ public class UpdateTaskActivity extends AppCompatActivity {
 
             if (TextUtils.isEmpty(strTaskName) || TextUtils.isEmpty(strTaskDescription) || TextUtils.isEmpty(strDate) || TextUtils.isEmpty(strStartTime) || TextUtils.isEmpty(strEndTime) || TextUtils.isEmpty(strAlarmTime)) {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
-            } else if (startTime != null && endTime != null && !endTime.after(startTime)) {
+            } else if (!endTime.after(startTime)) {
                 Toast.makeText(this, "Thời gian kết thúc phải sau thời gian bắt đầu", Toast.LENGTH_SHORT).show();
             } else {
                 Task task = new Task(id, strTaskName, strTaskDescription, strDate, strStartTime, strEndTime, strAlarmTime, strColor, strLocation, idCurrentUser);
-                TaskDaoImpl taskDAO = TaskDaoImpl.getInstance();
-                taskDAO.isTaskExists(task, existingTask -> {
-                    if (existingTask != null) {
-                        Toast.makeText(UpdateTaskActivity.this, "Bản ghi đã tồn tại", Toast.LENGTH_SHORT).show();
-                    } else {
-                        taskDAO.updateTask(id, task);
-                        Toast.makeText(UpdateTaskActivity.this, "Sửa thông tin công việc thành công", Toast.LENGTH_SHORT).show();
+                TaskDaoImpl taskDao = TaskDaoImpl.getInstance();
+                taskDao.isTaskExists(task, new TaskDao.TaskExistsCallback() {
+                    @Override
+                    public void onCallback(Task existingTask) {
+                        if (existingTask != null) {
+                            Toast.makeText(UpdateTaskActivity.this, "Bản ghi đã tồn tại", Toast.LENGTH_SHORT).show();
+                        } else {
+                            taskDao.updateTask(id, task);
+                            Toast.makeText(UpdateTaskActivity.this, "Sửa thông tin công việc thành công", Toast.LENGTH_SHORT).show();
 
-                        NotificationHelper.cancelAlarm(this, id);
-                        NotificationHelper.setAlarm(this, task);
+                            NotificationHelper.cancelAlarm(UpdateTaskActivity.this, id);
+                            NotificationHelper.setAlarm(UpdateTaskActivity.this, task);
 
-                        Intent intent = new Intent(UpdateTaskActivity.this, MainActivity.class);
-                        intent.putExtra("key_task", "task");
-                        intent.putExtra("key_date", strDate);
-                        startActivity(intent);
-                        finish();
+                            Intent intent = new Intent(UpdateTaskActivity.this, MainActivity.class);
+                            intent.putExtra("key_task", "task");
+                            intent.putExtra("key_date", strDate);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 });
             }

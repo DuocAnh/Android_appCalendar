@@ -26,7 +26,7 @@ public class CurrentDayDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new CustomSpan(8, color)); // Adjust the radius and color here
+        view.addSpan(new CustomSpan(9, color)); // Adjust the radius and color here
     }
 
 }

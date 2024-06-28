@@ -333,7 +333,6 @@ public class Login extends AppCompatActivity {
 //                                                Intent intent = new Intent(Login.this,UserProfile.class);
 //                                                intent.putExtra("userID",userID);
 //                                                startActivity(intent);
-                                                startActivity(new Intent(Login.this, ShowTaskActivity.class));
                                                 finish();
                                             }
                                         })
