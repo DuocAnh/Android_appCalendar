@@ -56,6 +56,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -119,11 +121,16 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+// Face book
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this.getApplication());
 
         mapping();
 
@@ -329,7 +336,7 @@ public class Login extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.d("Messes notice update password firebase", "Password updated in Firestore");
-                                                startActivity(new Intent(Login.this, UserProfile.class));
+                                                startActivity(new Intent(Login.this, MainActivity.class));
                                                 finish();
                                             }
                                         })
@@ -352,7 +359,6 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Review the character count conditions", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void signIn(){

@@ -84,7 +84,7 @@ public class Sign_Up extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         if (firebaseAuth.getCurrentUser() != null){
-            Toast.makeText(this, "Dang ki roi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Dang ki roi", Toast.LENGTH_LONG).show();
         }
 
         int tv = ContextCompat.getColor(this,R.color.star_color);

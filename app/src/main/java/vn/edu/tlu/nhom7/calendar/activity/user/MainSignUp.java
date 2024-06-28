@@ -23,6 +23,13 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookActivity;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -52,6 +59,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.security.Permission;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -60,10 +69,11 @@ import vn.edu.tlu.nhom7.calendar.R;
 
 public class MainSignUp extends AppCompatActivity {
 
-    Button btn_Facebook,btn_PhoneNumber;
+    Button btn_PhoneNumber, btn_Facebook;
     ImageButton btn_Google;
     TextView btn_Login;
 
+//    LoginButton btn_Facebook;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     StorageReference storageReference;
@@ -71,6 +81,9 @@ public class MainSignUp extends AppCompatActivity {
     private static  final int RC_SIGN_IN = 40;
     GoogleSignInClient googleSignInClient;
     ShapeableImageView imageView;
+    private CallbackManager mcallbackManager;
+
+
 
     private void Mapping(){
         btn_Facebook = findViewById(R.id.btn_Facebook_SU);
@@ -84,13 +97,46 @@ public class MainSignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_sign_up);
+/// Fcaebook
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this.getApplication());
+        mcallbackManager = CallbackManager.Factory.create();
+
+        Mapping();
+
+//        btn_Facebook.setRe(Arrays.asList("email", "public_profile"));
+//        btn_Facebook.setReadPermissions(Arrays.asList("email", "public_profile"));
+
+        btn_Facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logInWithReadPermissions(MainSignUp.this, Arrays.asList("email", "public_profile"));
+            }
+        });
+
+        LoginManager.getInstance().registerCallback(mcallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+//                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        Mapping();
 
         firebaseAuth =  FirebaseAuth.getInstance();
         firebaseFirestore =  FirebaseFirestore.getInstance();
@@ -118,14 +164,7 @@ public class MainSignUp extends AppCompatActivity {
 
         btn_Google.setOnClickListener(v -> signIn());
 
-        btn_Facebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainSignUp.this,FacebookActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
-            }
-        });
+
 
     }
     private void signIn() {
