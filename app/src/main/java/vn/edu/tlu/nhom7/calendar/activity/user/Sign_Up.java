@@ -32,6 +32,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +84,7 @@ public class Sign_Up extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         if (firebaseAuth.getCurrentUser() != null){
-            Toast.makeText(this, "Dang ki roi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Dang ki roi", Toast.LENGTH_LONG).show();
         }
 
         int tv = ContextCompat.getColor(this,R.color.star_color);
